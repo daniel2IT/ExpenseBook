@@ -1,4 +1,4 @@
-﻿using ExpenseBook.Models;
+using ExpenseBook.Models;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
