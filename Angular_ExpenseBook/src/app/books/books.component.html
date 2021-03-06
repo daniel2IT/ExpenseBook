@@ -1,0 +1,39 @@
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th> No </th>
+            <th> EmployeerName </th>
+            <th> EmployeeName </th>
+            <th> Project </th>
+            <th> Date </th>
+            <th> Spent </th>
+            <th> VAT </th>
+            <th> Total </th>
+            <th> Comment </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let bookItem of bookList">
+            <td>{{bookItem.No}}</td>
+            <td>{{bookItem.EmployeerName}}</td>
+            <td>{{bookItem.EmployeeName}}</td>
+            <td>{{bookItem.Project}}</td>
+            <td>{{bookItem.Date}}</td>
+            <td>{{bookItem.Spent}}</td>
+            <td>{{bookItem.VAT}}</td>
+            <td>{{bookItem.Total}}</td>
+            <td>{{bookItem.Comment}}</td>
+            <button type="button" class="btn btn-warning mr-1">
+                Create
+            </button>
+            <button type="button" class="btn btn-warning mr-1">
+                Edit
+            </button>
+            <button type="button" class="btn btn-danger mr-1">
+                Delete
+            </button>
+        </tr>
+    </tbody>
+</table>
