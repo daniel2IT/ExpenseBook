@@ -12,7 +12,38 @@ export class BooksComponent implements OnInit {
 
   bookList: any = [];
 
+  ModalTitle!: string;
+  ActivateAddEditDepComp: boolean = false;
+  dep:any;
+
   ngOnInit(): void {
+    this.refreshBookList();
+  }
+
+  addClick(){
+    this.dep={
+      No:0,
+      EmployeerName:"TestEmployeerName",
+      EmployeeName:"Employee1",
+      Project:"TestProjectName",
+      Date:"1999/04/30",
+      Spent:"40",
+      VAT:"50",
+      Total:"20",
+      Comment:"TestComment"
+    }
+    this.ModalTitle="Add Book";
+    this.ActivateAddEditDepComp=true;
+  }
+
+  editClick(item: any){
+    this.dep = item;
+    this.ModalTitle = "Edit Book";
+    this.ActivateAddEditDepComp=true;
+  }
+
+  closeClick(){
+    this.ActivateAddEditDepComp = false;
     this.refreshBookList();
   }
 
@@ -20,7 +51,6 @@ export class BooksComponent implements OnInit {
     this.service.getBooksList().subscribe(data => {
         this.bookList = data;
     });
-
     }
 
 }

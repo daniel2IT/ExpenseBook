@@ -16,5 +16,17 @@ export class SharedService {
       return this.http.get<any>(this.APIUrl + '/books');
     }
 
+    addBook(val:any){
+      return this.http.post(this.APIUrl+'/books',val);
+    }
+  
+    updateBook(val:any){
+      return this.http.put(this.APIUrl+'/books',val);
+    }
+  
+    deleteBook(val:any){
+      return this.http.delete(this.APIUrl+'/books/'+val);
+    }
+  
 
 }
