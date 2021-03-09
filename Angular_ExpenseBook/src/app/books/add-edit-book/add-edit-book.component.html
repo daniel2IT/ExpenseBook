@@ -1,19 +1,19 @@
 <div class="form-froup row">
     <div class="col-sm-10">
-        <b>EmployeerName</b>
+        <b>EmployerName</b>
         <!--<input type="text" class="form-control" [(ngModel)]="EmployeerName"
         placeholder="Enter Department Name">-->
         <br>
-        <select style="color: green; font-weight: bold;" [(ngModel)]="EmployeerName">
-            <option *ngFor="let bookItem of bookList">
-               <b>{{bookItem.EmployeerName}}</b> 
+        <select class="form-control" [(ngModel)]="EmployerName">
+            <option *ngFor="let bookItem of bookList2" [value]="bookItem.EmployerName">
+               <b>{{bookItem.EmployerName}}</b> 
             </option>
         </select>
         <br>
         <b>EmployeeName</b>
         <br>
-        <select style="color: green; font-weight: bold;" [(ngModel)]="EmployeeName">
-            <option *ngFor="let bookItem of bookList">
+        <select class="form-control"  [(ngModel)]="EmployeeName">
+            <option *ngFor="let bookItem of bookList" [value]="bookItem.EmployeeName">
                <b>{{bookItem.EmployeeName}}</b> 
             </option>
         </select>
@@ -41,10 +41,10 @@
     </div>
 </div>
 
-<button (click)="addDepartment()" *ngIf="dep.No==0" class="btn btn-primary">
+<button (click)="addBook()" *ngIf="dep.No==0" class="btn btn-primary">
     Add
 </button>
 
-<button (click)="updateDepartment()" *ngIf="dep.No!=0" class="btn btn-primary">
+<button (click)="updateBook()" *ngIf="dep.No!=0" class="btn btn-primary">
     Update
 </button>

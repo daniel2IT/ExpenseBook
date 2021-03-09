@@ -23,8 +23,8 @@ export class BooksComponent implements OnInit {
   addClick(){
     this.dep={
       No:0,
-      EmployeerName:"TestEmployeerName",
-      EmployeeName:"Employee1",
+      EmployeerName:"",
+      EmployeeName:"",
       Project:"TestProjectName",
       Date:"1999/04/30",
       Spent:"40",

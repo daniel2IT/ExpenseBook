@@ -11,6 +11,14 @@ export class SharedService {
   readonly BooksUrl = "https://localhost:44388/api/books";
 
   constructor(private http:HttpClient) {}
+    
+    getEmployeeList():Observable<any[]>{
+      return this.http.get<any>(this.APIUrl + '/employee');
+    }
+
+    getEmployerList():Observable<any[]>{
+      return this.http.get<any>(this.APIUrl + '/employer');
+    }
 
     getBooksList():Observable<any[]>{
       return this.http.get<any>(this.APIUrl + '/books');

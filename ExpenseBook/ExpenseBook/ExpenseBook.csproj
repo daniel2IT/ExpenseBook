@@ -196,6 +196,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Data\CRMDbContex.cs" />
@@ -203,7 +205,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperClass.cs" />
+    <Compile Include="Interfaces\IBookRepository.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Employer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +263,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Employeer\" />
+    <Folder Include="Views\Employee\" />
     <Folder Include="Views\Employer\" />
   </ItemGroup>
   <ItemGroup>

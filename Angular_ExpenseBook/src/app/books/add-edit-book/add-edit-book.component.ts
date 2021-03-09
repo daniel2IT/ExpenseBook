@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SharedService } from '../shared/books.service';
 
+
+
 @Component({
   selector: 'app-add-edit-book',
   templateUrl: './add-edit-book.component.html',
@@ -9,16 +11,20 @@ import { SharedService } from '../shared/books.service';
 export class AddEditBookComponent implements OnInit {
 
   bookList: any = [];
+  bookList2: any = [];
 
   constructor(private service:SharedService) {
-      this.service.getBooksList().subscribe(data => {
+      this.service.getEmployeeList().subscribe(data => {
         this.bookList = data;
     });
+    this.service.getEmployerList().subscribe(data => {
+      this.bookList2 = data;
+  });
    }
 
   @Input() dep:any;
   No: string  | undefined;
-  EmployeerName: string  | undefined;
+  EmployerName: string  | undefined;
   EmployeeName: string  | undefined;
   Project: string  | undefined;
   Date: string  | undefined;
@@ -29,7 +35,7 @@ export class AddEditBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.No = this.dep.No;
-    this.EmployeerName = this.dep.EmployeerName;
+    this.EmployeeName = this.dep.EmployeerName;
     this.EmployeeName = this.dep.EmployeeName;
     this.Project = this.dep.Project;
     this.Date = this.dep.Date;
@@ -39,10 +45,10 @@ export class AddEditBookComponent implements OnInit {
     this.Comment = this.dep.Comment;
   }
 
-  addDepartment(){
+  addBook(){
     var val = {
       No:this.No,
-      EmployeerName:this.EmployeerName,
+      EmployeerName:this.EmployerName,
       EmployeeName:this.EmployeeName,
       Project:this.Project,
       Date:this.Date,
@@ -56,10 +62,10 @@ export class AddEditBookComponent implements OnInit {
             });
   }
 
-  updateDepartment(){
+  updateBook(){
     var val = {
       No:this.No,
-      EmployeerName:this.EmployeerName,
+      EmployeerName:this.EmployerName,
       EmployeeName:this.EmployeeName,
       Project:this.Project,
       Date:this.Date,
