@@ -50,13 +50,7 @@ namespace ExpenseBook.Controllers
                 queryEmployee.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
                 queryEmployee.Criteria.AddCondition("new_name", ConditionOperator.NotNull);
 
-                //queryEmployee.Criteria.AddCondition("new_employer", ConditionOperator.NotNull); // nebutinai.. nes mums reikia tiesiog paimti ... 
-
                 EntityCollection employeeCollection = service.RetrieveMultiple(queryEmployee);
-
-                //List<string> employeeDuplicates = new List<string>();
-
-            
                 
                 foreach (Entity app in expenseCollection.Entities) // Visi projektai ... 
                 {
@@ -156,9 +150,6 @@ namespace ExpenseBook.Controllers
             {
                 var service = HelperClass.getCRMServie();
 
-                // BOook obnowlennye --->> CRM PREZHNIE <<< --- Nuzhno obnowit  
-                // Sdes tolko No. nie obnowilsia w Book ... poetomu berem wsie dannye po nomeru 
-
                 //////////////////////////////// Get 100% Expense ////////////////////////////////
                 QueryExpression queryExpense = new QueryExpression("new_expense");
                 queryExpense.ColumnSet.AddColumns("new_no", "new_name", "statuscode", "new_date", "new_spent", "new_vat", "new_total", "new_comment", "new_employee", "new_expenseid");
@@ -208,49 +199,6 @@ namespace ExpenseBook.Controllers
                 employeeEntity["new_employer"] = new EntityReference("new_employer", EmployerId);
                 service.Update(employeeEntity);
 
-                //((EntityReference)expenseCollection.Entities.Attributes["new_employee"]).Name; 
-
-
-
-
-
-                // Get Employee
-                //*    book.EmployeeName = ((EntityReference)app.Attributes["new_employee"]).Name; // Get Current Employee Name
-
-                // Get Employeer 
-                /*  Guid EmployeeId = (Guid)((EntityReference)app.Attributes["new_employee"]).Id;
-                  book.EmployeerName = employeeCollection.Entities.FirstOrDefault(x => x.Id == EmployeeId).GetAttributeValue<EntityReference>("new_employer").Name.ToString();*/
-
-
-                /*         // Reference Employee <- Employer cia reikia UPDATE 
-                         QueryExpression queryEmployer = new QueryExpression { EntityName = "new_employer", ColumnSet = new ColumnSet("new_name", "new_employerid", "statuscode") };
-
-                         queryEmployer.Criteria.AddCondition("new_name", ConditionOperator.Equal, book.EmployeerName);
-                         queryEmployer.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
-
-                         Entity employeeEntity = new Entity("new_employee", EmployeeId); // get employee entity
-
-                         var EmployerId = (Guid)service.RetrieveMultiple(queryEmployer)[0].Attributes["new_employerid"]; // get id Employeer 
-                         employeeEntity["new_employer"] = new EntityReference("new_employer", EmployerId);
-         *//*
-
-                ////////////////////////////////////////////////////////////////////////////////////
-
-
-                //queryEmployee.Criteria.AddCondition("new_employer", ConditionOperator.NotNull); // nebutinai.. nes mums reikia tiesiog paimti ... 
-
-                EntityCollection employeeCollection = service.RetrieveMultiple(queryEmployee);
-                ////////////////////////////////////////////////////////////////////////////////////
-                ////////////////////////////////////////////////////////////////////////////////////
-
-                // Get Employeer
-                Guid EmployeeId = (Guid)((EntityReference)app.Attributes["new_employee"]).Id;
-                book.EmployeerName = employeeCollection.Entities.FirstOrDefault(x => x.Id == EmployeeId).GetAttributeValue<EntityReference>("new_employer").Name.ToString();
-
-                *//* var existingStudent = ctx.Students.Where(s => s.StudentID == student.Id)
-                                                    .FirstOrDefault<Student>();*/
-
-
 
                 return "Updated Successfully ! ";
             }
@@ -263,8 +211,29 @@ namespace ExpenseBook.Controllers
 
         // DELETE api/values/5
         [System.Web.Http.HttpDelete]
-        public void Delete(int id)
+        public string Delete(int id)
         {
-        }
+            try
+            {
+                var service = HelperClass.getCRMServie();
+
+                QueryExpression queryExpense = new QueryExpression("new_expense");
+                queryExpense.ColumnSet.AddColumns("new_no", "statuscode", "new_date", "new_expenseid");
+
+                queryExpense.Criteria.AddCondition("new_no", ConditionOperator.Equal, (Convert.ToString(id))); // Nomer tolko odin
+                queryExpense.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
+
+                EntityCollection expenseCollection = service.RetrieveMultiple(queryExpense);
+
+                Guid expenceId = (Guid)service.RetrieveMultiple(queryExpense)[0].Attributes["new_expenseid"];
+                service.Delete("new_expense",expenceId);
+
+                return "Record Successfully Deleted";
+            }
+            catch (Exception ex)
+            {
+                return "Failed To Delete: " + new ArgumentException(ex.Message);
+            }
+}
     }
 }

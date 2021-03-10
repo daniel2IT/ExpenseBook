@@ -78,5 +78,4 @@ export class AddEditBookComponent implements OnInit {
         alert(res.toString());
       });
   }
-
 }

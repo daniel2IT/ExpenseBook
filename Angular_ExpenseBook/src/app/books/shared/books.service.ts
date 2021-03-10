@@ -32,8 +32,8 @@ export class SharedService {
       return this.http.put(this.APIUrl+'/books',val);
     }
   
-    deleteBook(val:any){
-      return this.http.delete(this.APIUrl+'/books/'+val);
+    deleteBook(valNo:any){
+      return this.http.delete(this.APIUrl+'/books/'+valNo);
     }
   
 

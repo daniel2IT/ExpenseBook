@@ -42,6 +42,15 @@ export class BooksComponent implements OnInit {
     this.ActivateAddEditDepComp=true;
   }
 
+  deleteClick(item: any){
+    if(confirm("Are you sure?")){
+      this.service.deleteBook(item.No).subscribe(data =>{
+        alert(data.toString());
+        this.refreshBookList();
+      })
+    }
+  }
+
   closeClick(){
     this.ActivateAddEditDepComp = false;
     this.refreshBookList();
