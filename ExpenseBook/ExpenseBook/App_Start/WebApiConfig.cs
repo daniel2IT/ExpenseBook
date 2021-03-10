@@ -13,7 +13,6 @@ namespace ExpenseBook
             // Web API configuration and services
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
 
-            // Web API configuration and services
             // Enable CORS for the Angular App
             var cors = new EnableCorsAttribute("http://localhost:4200", "*", "*");
             config.EnableCors(cors);
