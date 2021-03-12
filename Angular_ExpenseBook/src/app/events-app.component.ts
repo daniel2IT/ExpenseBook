@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 `})
 
 export class EventsAppComponent {
-  title = 'BigPic';
+  title = 'ExpenseBook';
 
   message$: any;
 

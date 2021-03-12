@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SharedService } from '../shared/books.service';
-
-
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-book',
@@ -10,39 +9,54 @@ import { SharedService } from '../shared/books.service';
 })
 export class AddEditBookComponent implements OnInit {
 
+  
   bookList: any = [];
   bookList2: any = [];
+  datePipeString : string | any;
 
-  constructor(private service:SharedService) {
+  @Input() dep:any;
+  No: string  | any;
+  EmployerName: string  | any;
+  EmployeeName: string  | any;
+  Project: string  | any;
+  Date: string  | any;
+  Spent: Number  | any;
+  VAT: Number  | any;
+  Total: Number  | any;
+  Comment: string  | any;
+  
+  constructor(private service:SharedService, private datePipe: DatePipe) {
       this.service.getEmployeeList().subscribe(data => {
         this.bookList = data;
     });
     this.service.getEmployerList().subscribe(data => {
       this.bookList2 = data;
   });
-   }
+  setInterval(() => {
+  this.Date = datePipe.transform(Date.now(),'yyyy/MM/dd HH:mm:ss');
+}, 1000);  
+}
 
-  @Input() dep:any;
-  No: string  | undefined;
-  EmployerName: string  | undefined;
-  EmployeeName: string  | undefined;
-  Project: string  | undefined;
-  Date: string  | undefined;
-  Spent: string  | undefined;
-  VAT: string  | undefined;
-  Total: string  | undefined;
-  Comment: string  | undefined;
 
   ngOnInit(): void {
     this.No = this.dep.No;
     this.EmployeeName = this.dep.EmployeerName;
     this.EmployeeName = this.dep.EmployeeName;
     this.Project = this.dep.Project;
-    this.Date = this.dep.Date;
     this.Spent = this.dep.Spent;
-    this.VAT = this.dep.VAT;
-    this.Total = this.dep.Total;
+    this.VAT = .21;
+    this.Total = this.totalValue(this.dep.Spent);
     this.Comment = this.dep.Comment;
+  }
+
+  modelChanged(newObj : any) {
+    this.Total = this.totalValue(newObj);
+}
+
+  
+  totalValue(Spent: any){
+    var vat = this.Spent *  .21;
+    return Number(this.Spent) + Number(vat);
   }
 
   addBook(){

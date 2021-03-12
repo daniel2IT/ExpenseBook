@@ -16,6 +16,7 @@ namespace ExpenseBook.Controllers
         {
             try
             {
+                
                 List<Book> books = new List<Book>();
                 CrmServiceClient service = HelperClass.getCRMServie();
 
@@ -35,7 +36,6 @@ namespace ExpenseBook.Controllers
                     // Get Employeer Name
                     Guid EmployeeId = (Guid)((EntityReference)app.Attributes["new_employee"]).Id;
                     book.EmployeerName = employeeCollection.Entities.FirstOrDefault(x => x.Id == EmployeeId).GetAttributeValue<EntityReference>("new_employer").Name.ToString();
-
                     book.Project = app.Attributes["new_name"].ToString();
                     book.Date = Convert.ToDateTime(app.Attributes["new_date"]);
                     book.Spent = Convert.ToDecimal(app.GetAttributeValue<Money>("new_spent").Value);

@@ -25,25 +25,26 @@
         placeholder="Enter Department Name">
         <b>Date</b>
         <input type="text" class="form-control" [(ngModel)]="Date"
-        placeholder="Enter Department Name">
+        placeholder="Enter Department Name" [readonly]="true" >
         <b>Spent</b>
-        <input type="text" class="form-control" [(ngModel)]="Spent"
-        placeholder="Enter Department Name">
+        <input type="text" class="form-control" [(ngModel)]="Spent" 
+        placeholder="Enter Department Name" (ngModelChange)="modelChanged($event)">
         <b>VAT</b>
         <input type="text" class="form-control" [(ngModel)]="VAT"
-        placeholder="Enter Department Name">
+        placeholder="Enter Department Name" [readonly]="true">
         <b>Total</b>
         <input type="text" class="form-control" [(ngModel)]="Total"
-        placeholder="Enter Department Name">
+        placeholder="Enter Department Name" [readonly]="true">
         <b>Comment</b>
-        <input type="text" class="form-control" [(ngModel)]="Comment"
-        placeholder="Enter Department Name">
+            <input type="text" class="form-control" matInput #input maxlength="300" placeholder="Enter some input" [(ngModel)]="Comment">
+            <div class="float-right">{{input.value?.length || 0}}/300</div>
     </div>
 </div>
 
 <button (click)="addBook()" *ngIf="dep.No==0" class="btn btn-primary">
     Add
 </button>
+
 <button (click)="updateBook()" *ngIf="dep.No!=0" class="btn btn-primary">
     Update
 </button>

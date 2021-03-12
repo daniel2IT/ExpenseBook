@@ -17,6 +17,7 @@ namespace ExpenseBook.Models
         public string Project { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
         [Required]
