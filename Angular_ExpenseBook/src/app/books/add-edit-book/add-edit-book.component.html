@@ -1,8 +1,6 @@
 <div class="form-froup row">
     <div class="col-sm-10">
         <b>EmployerName</b>
-        <!--<input type="text" class="form-control" [(ngModel)]="EmployeerName"
-        placeholder="Enter Department Name">-->
         <br>
         <select class="form-control" [(ngModel)]="EmployerName">
             <option *ngFor="let bookItem of bookList2" [value]="bookItem.EmployerName">
@@ -18,8 +16,6 @@
             </option>
         </select>
         <br>
-        <!-- <input type="text" class="form-control" [(ngModel)]="EmployeeName"
-        placeholder="Enter Department Name">-->
         <b>Project</b>
         <input type="text" class="form-control" [(ngModel)]="Project"
         placeholder="Enter Department Name">
@@ -36,8 +32,8 @@
         <input type="text" class="form-control" [(ngModel)]="Total"
         placeholder="Enter Department Name" [readonly]="true">
         <b>Comment</b>
-            <input type="text" class="form-control" matInput #input maxlength="300" placeholder="Enter some input" [(ngModel)]="Comment">
-            <div class="float-right">{{input.value?.length || 0}}/300</div>
+        <input type="text" class="form-control" matInput #input maxlength="300" placeholder="Enter some input" [(ngModel)]="Comment">
+        <i class="pull-right">{{input.value?.length || 0}}/300</i>
     </div>
 </div>
 

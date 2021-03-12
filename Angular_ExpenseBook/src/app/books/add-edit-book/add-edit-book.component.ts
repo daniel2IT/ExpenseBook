@@ -5,21 +5,21 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-add-edit-book',
   templateUrl: './add-edit-book.component.html',
-  styleUrls: ['./add-edit-book.component.css']
+  styles : [`
+ 
+  `]
 })
 export class AddEditBookComponent implements OnInit {
-
   
   bookList: any = [];
   bookList2: any = [];
-  datePipeString : string | any;
 
   @Input() dep:any;
   No: string  | any;
   EmployerName: string  | any;
   EmployeeName: string  | any;
   Project: string  | any;
-  Date: string  | any;
+  Date: Date  | any;
   Spent: Number  | any;
   VAT: Number  | any;
   Total: Number  | any;
@@ -40,8 +40,6 @@ export class AddEditBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.No = this.dep.No;
-    this.EmployeeName = this.dep.EmployeerName;
-    this.EmployeeName = this.dep.EmployeeName;
     this.Project = this.dep.Project;
     this.Spent = this.dep.Spent;
     this.VAT = .21;
@@ -51,7 +49,7 @@ export class AddEditBookComponent implements OnInit {
 
   modelChanged(newObj : any) {
     this.Total = this.totalValue(newObj);
-}
+  }
 
   
   totalValue(Spent: any){

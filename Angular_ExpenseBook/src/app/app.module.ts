@@ -22,8 +22,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DatePipe } from '@angular/common';
 
 import {MatNativeDateModule} from '@angular/material/core';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
