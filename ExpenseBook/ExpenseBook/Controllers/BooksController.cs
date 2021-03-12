@@ -1,6 +1,5 @@
 ﻿using ExpenseBook.Models;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ namespace ExpenseBook.Controllers
 {
     public class BooksController : ApiController
     {
-        private static int bookCount;
         // GET: Books
         [HttpGet]
         public List<Book> Get()
@@ -22,10 +20,10 @@ namespace ExpenseBook.Controllers
                 CrmServiceClient service = HelperClass.getCRMServie();
 
                 // Get  Expenses 
-                EntityCollection expenseCollection = HelperClass.Query(service, "new_expense", "null");
+                EntityCollection expenseCollection = HelperClass.Query(service, "new_expense", "", "");
                 
                 // Get Employee
-                EntityCollection employeeCollection = HelperClass.Query(service, "new_employee", "null");
+                EntityCollection employeeCollection = HelperClass.Query(service, "new_employee", "", "");
 
                 foreach (Entity app in expenseCollection.Entities)
                 {
@@ -76,21 +74,21 @@ namespace ExpenseBook.Controllers
                 expenseEntity["new_comment"] = book.Comment;
 
                 // Get Employee set -> (reference)
-                EntityCollection employeeCollection = HelperClass.Query(service, "new_employee", book.EmployeeName);
+                EntityCollection employeeCollection = HelperClass.Query(service, "new_employee", book.EmployeeName, "");
                 var EmployeeId = employeeCollection.Entities[0].GetAttributeValue<Guid>("new_employeeid");
                 expenseEntity["new_employee"] = new EntityReference("new_employee", EmployeeId);
 
                 // Get Employeer set -> (reference)
-                EntityCollection employerCollection =  HelperClass.Query(service, "new_employer", "null");
+                EntityCollection employerCollection =  HelperClass.Query(service, "new_employer", book.EmployeerName, "");
                 Entity employeeEntity = new Entity("new_employee", EmployeeId); // get employee entity
-                var EmployerId = employerCollection.Entities[0].GetAttributeValue<Guid>("new_employerid");
+                Guid EmployerId = employerCollection.Entities[0].GetAttributeValue<Guid>("new_employerid");
                 employeeEntity["new_employer"] = new EntityReference("new_employer", EmployerId);
 
                 service.Create(expenseEntity);
                 service.Update(employeeEntity);
                 
 
-                return "Added Successfully ! " + book.EmployeeName;
+                return "Added Successfully ! ";
             }
             catch (Exception ex)
             {
@@ -110,55 +108,32 @@ namespace ExpenseBook.Controllers
             {
                 var service = HelperClass.getCRMServie();
 
-                //////////////////////////////// Get 100% Expense ////////////////////////////////
-                QueryExpression queryExpense = new QueryExpression("new_expense");
-                queryExpense.ColumnSet.AddColumns("new_no", "new_name", "statuscode", "new_date", "new_spent", "new_vat", "new_total", "new_comment", "new_employee", "new_expenseid");
+                // Get Expense
+                EntityCollection expenseCollection = HelperClass.Query(service, "new_expense", "new_expenseid", Convert.ToString(book.No));
+                Guid expenceId = expenseCollection.Entities[0].GetAttributeValue<Guid>("new_expenseid");
 
-                queryExpense.Criteria.AddCondition("new_no", ConditionOperator.Equal, (Convert.ToString(book.No))); // Nomer tolko odin
-                queryExpense.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1)); 
-
-                EntityCollection expenseCollection = service.RetrieveMultiple(queryExpense);
-
-                Guid expenceId = (Guid)service.RetrieveMultiple(queryExpense)[0].Attributes["new_expenseid"];
-                //Guid expenceId = ((EntityReference)expenseCollection[0].Attributes["new_expenseid"]).Id;
                 Entity expenseEntity = new Entity("new_expense", expenceId);
-
                 expenseEntity["new_name"] = book.Project;
                 expenseEntity["new_date"] = book.Date;
                 expenseEntity["new_spent"] = new Money((decimal)book.Spent);
                 expenseEntity["new_vat"] = new Money((decimal)book.VAT);
                 expenseEntity["new_total"] = new Money((decimal)book.Total);
                 expenseEntity["new_comment"] = book.Comment;
+                
+                // Get Employee && Update Expense
+                EntityCollection employeeCollection = HelperClass.Query(service, "new_employee", "new_employeeid", book.EmployeeName);
+                Guid employeeNewId = employeeCollection.Entities[0].GetAttributeValue<Guid>("new_employeeid");
 
-               
-                // Imia Employee poluchili
-                String prevEmployeeName = ((EntityReference)expenseCollection[0].Attributes["new_employee"]).Name;
-
-                //////////////////////////////// Get 100% Employee ////////////////////////////////
-                QueryExpression queryEmployee = new QueryExpression { EntityName = "new_employee", ColumnSet = new ColumnSet("new_name", "new_employeeid", "new_employer", "statuscode") };
-               
-                queryEmployee.Criteria.AddCondition("new_name", ConditionOperator.Equal, book.EmployeeName);
-                queryEmployee.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
-                EntityCollection employeeCollection = service.RetrieveMultiple(queryEmployee);
-
-                Guid EmployeeNewId = (Guid)service.RetrieveMultiple(queryEmployee)[0].Attributes["new_employeeid"]; // get id Employeer 
-
-                expenseEntity["new_employee"] = new EntityReference("new_employee", EmployeeNewId); // Updated Expense LookUp
-               
+                expenseEntity["new_employee"] = new EntityReference("new_employee", employeeNewId); // Updated Expense LookUp
                 service.Update(expenseEntity);
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                QueryExpression queryEmployer = new QueryExpression { EntityName = "new_employer", ColumnSet = new ColumnSet("new_name", "new_employerid", "statuscode") };
 
-                queryEmployer.Criteria.AddCondition("new_name", ConditionOperator.Equal, book.EmployeerName);
-                queryEmployer.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
+                // Get Employer && Update Employee
+                EntityCollection employerCollection = HelperClass.Query(service, "new_employer", "new_employerid", book.EmployeerName);
+                Guid employerId = employerCollection.Entities[0].GetAttributeValue<Guid>("new_employerid");
 
-                Guid EmployerId = (Guid)service.RetrieveMultiple(queryEmployer)[0].Attributes["new_employerid"]; // get id Employeer 
-
-                // UPADTE EMPLOYEE NAME
-                Entity employeeEntity = new Entity("new_employee", EmployeeNewId); // get employee entity
-                employeeEntity["new_employer"] = new EntityReference("new_employer", EmployerId);
+                Entity employeeEntity = new Entity("new_employee", employeeNewId);
+                employeeEntity["new_employer"] = new EntityReference("new_employer", employerId);
                 service.Update(employeeEntity);
-
 
                 return "Updated Successfully ! ";
             }
@@ -176,15 +151,9 @@ namespace ExpenseBook.Controllers
             {
                 var service = HelperClass.getCRMServie();
 
-                QueryExpression queryExpense = new QueryExpression("new_expense");
-                queryExpense.ColumnSet.AddColumns("new_no", "statuscode", "new_date", "new_expenseid");
+                EntityCollection expenseCollection = HelperClass.Query(service, "new_expense", "new_expenseid", Convert.ToString(id));
+                Guid expenceId = expenseCollection.Entities[0].GetAttributeValue<Guid>("new_expenseid");
 
-                queryExpense.Criteria.AddCondition("new_no", ConditionOperator.Equal, (Convert.ToString(id))); // Nomer tolko odin
-                queryExpense.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
-
-                EntityCollection expenseCollection = service.RetrieveMultiple(queryExpense);
-
-                Guid expenceId = (Guid)service.RetrieveMultiple(queryExpense)[0].Attributes["new_expenseid"];
                 service.Delete("new_expense",expenceId);
 
                 return "Record Successfully Deleted";

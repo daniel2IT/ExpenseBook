@@ -41,7 +41,7 @@ namespace ExpenseBook
 
         public static int GetMaxNo(CrmServiceClient service)
         {
-            EntityCollection numberCollection = HelperClass.Query(service, "new_expense", "maxNumber");
+            EntityCollection numberCollection = HelperClass.Query(service, "new_expense", "maxNumber", "");
             
             int maxNo = 0;
             foreach (Entity app in numberCollection.Entities)
@@ -55,7 +55,7 @@ namespace ExpenseBook
                 return maxNo;
         }
 
-        public static EntityCollection Query(CrmServiceClient service, string entityCollection, string exception)
+        public static EntityCollection Query(CrmServiceClient service, string entityCollection, string exception, string valueForUpdate)
         {
             if (exception.Equals("maxNumber"))
             {
@@ -80,11 +80,16 @@ namespace ExpenseBook
                     QueryCollumns.Add("new_total");
                     QueryCollumns.Add("new_comment");
                     QueryCollumns.Add("new_employee");
+                    // Using For Put Method
+                    if (exception.Equals("new_expenseid"))
+                    {
+                        QueryCollumns.Add("new_expenseid");
+                    }
                 }
                 if (entityCollection.Equals("new_employee"))
                 {
                     QueryCollumns.Add("new_employer");
-                    if (!exception.Equals("null"))
+                    if (!exception.Equals(""))
                     {
                         QueryCollumns.Add("new_employeeid");
                     }
@@ -94,15 +99,24 @@ namespace ExpenseBook
                     QueryCollumns.Add("new_employerid");
                 }
 
-                QueryExpression query = new QueryExpression(entityCollection); // new_employer
+                QueryExpression query = new QueryExpression(entityCollection);
                 query.ColumnSet.AddColumns(QueryCollumns.ToArray());
 
-                if (!exception.Equals("null"))
+                // Using For Post/Put Methods -> Conditions
+                if (!exception.Equals("") && !exception.Equals("new_expenseid") &&
+                    !exception.Equals("new_employeeid") && !exception.Equals("new_employerid")) 
                 {
-                    // Using For Post Method
                     query.Criteria.AddCondition("new_name", ConditionOperator.Equal, exception);
                 }
-                else
+                else if(exception.Equals("new_employeeid") && valueForUpdate != "")
+                {
+                    query.Criteria.AddCondition("new_name", ConditionOperator.Equal, valueForUpdate);
+                }
+                else if (exception.Equals("new_employerid") && valueForUpdate != "")
+                {
+                    query.Criteria.AddCondition("new_name", ConditionOperator.Equal, valueForUpdate);
+                }
+                else if (!exception.Equals("new_expenseid") && valueForUpdate == "")
                 {
                     query.Criteria.AddCondition("new_name", ConditionOperator.NotNull);
                 }
@@ -111,20 +125,22 @@ namespace ExpenseBook
 
                 if (entityCollection.Equals("new_expense"))
                 {
-                    query.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
-                    query.Criteria.AddCondition("new_date", ConditionOperator.NotNull);
-                    query.Criteria.AddCondition("new_spent", ConditionOperator.NotNull);
-                    query.Criteria.AddCondition("new_vat", ConditionOperator.NotNull);
-                    query.Criteria.AddCondition("new_total", ConditionOperator.NotNull);
-                    query.Criteria.AddCondition("new_comment", ConditionOperator.NotNull);
+                    if (exception.Equals("new_expenseid")) // Put Method
+                    {
+                        query.Criteria.AddCondition("new_no", ConditionOperator.Equal, valueForUpdate);
+                    }
+                    else
+                    {
+                        query.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
+                        query.Criteria.AddCondition("new_date", ConditionOperator.NotNull);
+                        query.Criteria.AddCondition("new_spent", ConditionOperator.NotNull);
+                        query.Criteria.AddCondition("new_vat", ConditionOperator.NotNull);
+                        query.Criteria.AddCondition("new_total", ConditionOperator.NotNull);
+                        query.Criteria.AddCondition("new_comment", ConditionOperator.NotNull);
 
-                    query.Criteria.AddCondition("new_employee", ConditionOperator.NotNull);
+                        query.Criteria.AddCondition("new_employee", ConditionOperator.NotNull);
+                    }
                 }
-
-                /*   if (entityCollection.Contains("employeeCollection"))
-                   {
-                       query.Criteria.AddCondition("new_employer", ConditionOperator.NotNull);
-                   }*/
 
                 return service.RetrieveMultiple(query);
             }

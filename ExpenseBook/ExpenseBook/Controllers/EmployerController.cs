@@ -1,6 +1,5 @@
 ﻿using ExpenseBook.Models;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -18,21 +17,13 @@ namespace ExpenseBook.Controllers
                 List<Employer> employees = new List<Employer>();
                 var service = HelperClass.getCRMServie();
 
-                QueryExpression queryEmployee = new QueryExpression("new_employer");
-
-                queryEmployee.ColumnSet.AddColumns("new_name", "statuscode");
-
-                queryEmployee.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
-                queryEmployee.Criteria.AddCondition("new_name", ConditionOperator.NotNull);
-
-                EntityCollection employeeCollection = service.RetrieveMultiple(queryEmployee);
-
+                EntityCollection employeeCollection = HelperClass.Query(service, "new_employer", "", "");
 
                 foreach (Entity app in employeeCollection.Entities)
                 {
                     Employer employee = new Employer();
 
-                    employee.EmployerName = app.Attributes["new_name"].ToString(); // Get Current Employee Name
+                    employee.EmployerName = app.Attributes["new_name"].ToString();
 
                     employees.Add(employee);
                 }
