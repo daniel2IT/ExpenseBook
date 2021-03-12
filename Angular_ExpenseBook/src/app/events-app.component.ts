@@ -1,13 +1,5 @@
 import { Component } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs';
-
-interface AppState { 
-  message: string;
-}
-
 @Component({
   selector: 'events-app',
   template: `
@@ -15,23 +7,12 @@ interface AppState {
   <router-outlet></router-outlet>
 `})
 
-
 export class EventsAppComponent {
   title = 'BigPic';
 
   message$: any;
 
-  constructor(private store: Store<AppState>){
-     this.message$ = this.store.select('message')
+  constructor(){
   }
-
-  lithuanianMessage(){
-    this.store.dispatch({type: 'LITHUANIA'})
-  }
-
-  russianMessage(){
-    this.store.dispatch({type: 'RUSSIA'})
-  }
-  
 }
 
