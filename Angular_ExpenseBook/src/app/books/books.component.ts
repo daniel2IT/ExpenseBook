@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from './shared/books.service'
+
 
 @Component({
   selector: 'app-books',
@@ -15,6 +16,7 @@ export class BooksComponent implements OnInit {
   ModalTitle!: string;
   ActivateAddEditDepComp: boolean = false;
   dep:any;
+  p:any;
 
   ngOnInit(): void {
     this.refreshBookList();

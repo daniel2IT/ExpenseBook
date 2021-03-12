@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AddEditBookComponent } from './books/add-edit-book/add-edit-book.component';
 import { EventsAppComponent } from './events-app.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { EventsAppComponent } from './events-app.component';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot(),
-    FormsModule
+    FormsModule, 
+    NgxPaginationModule
   ],
   declarations: [
     EventsAppComponent,

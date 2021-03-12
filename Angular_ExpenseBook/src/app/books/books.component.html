@@ -43,7 +43,7 @@ data-backdrop="static" data-keyboard="false"> <!--User can't close window outsid
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let bookItem of bookList">
+        <tr *ngFor="let bookItem of bookList | paginate: { itemsPerPage: 5, currentPage: p }">
             <td>{{bookItem.No}}</td>
             <td>{{bookItem.EmployeerName}}</td>
             <td>{{bookItem.EmployeeName}}</td>
@@ -70,5 +70,6 @@ data-backdrop="static" data-keyboard="false"> <!--User can't close window outsid
                 </svg>
             </button>
         </tr>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </tbody>
 </table>
