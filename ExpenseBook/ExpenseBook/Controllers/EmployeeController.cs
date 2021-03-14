@@ -14,6 +14,9 @@ namespace ExpenseBook.Controllers
         {
             try
             {
+                // Employee  – dropdown‘as parodantis visus CRM‘e esančius darbuotojų, priklausančius pasirinktam Employer;
+                // Emoloyer dropdown Selected posle chego siuda posupaet Employer Name ... 
+                // I pagal jego , pagal Criteria, my ishem wsiex prinodlezhashix dla etogo Emloyerera
                 List<Employee> employees = new List<Employee>();
                 var service = HelperClass.getCRMServie();
 

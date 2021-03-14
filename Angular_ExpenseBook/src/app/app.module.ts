@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NavBarComponent } from './nav/navbar.component';
-import { ToastrService } from './common/toastr.service';
 import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -47,7 +46,7 @@ import {MatInputModule} from '@angular/material/input';
     BooksComponent,
     AddEditBookComponent,
   ],
-  providers: [ToastrService, DatePipe], 
-  bootstrap: [ EventsAppComponent],
+  providers: [ DatePipe ], 
+  bootstrap: [ EventsAppComponent ],
 })
 export class AppModule { }

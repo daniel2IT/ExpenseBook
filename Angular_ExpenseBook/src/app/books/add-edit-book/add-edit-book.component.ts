@@ -5,9 +5,6 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-add-edit-book',
   templateUrl: './add-edit-book.component.html',
-  styles : [`
- 
-  `]
 })
 export class AddEditBookComponent implements OnInit {
   
@@ -38,6 +35,9 @@ export class AddEditBookComponent implements OnInit {
 }
 
 
+onChangeEvent(event: any){
+  console.log(event.target.value);
+}
   ngOnInit(): void {
     this.No = this.dep.No;
     this.Project = this.dep.Project;
