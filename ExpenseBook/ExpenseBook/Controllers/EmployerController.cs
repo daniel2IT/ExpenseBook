@@ -9,7 +9,7 @@ namespace ExpenseBook.Controllers
     public class EmployerController : ApiController
     {
         // GET: Employeer - Using it for dropdown
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public List<Employer> Get() 
         {
             try

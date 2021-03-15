@@ -12,29 +12,33 @@ export class SharedService {
 
   constructor(private http:HttpClient) {}
     
-    getEmployeeList():Observable<any[]>{
+    getEmployeeList():Observable<any[]>
+    {
       return this.http.get<any>(this.APIUrl + '/employee');
     }
 
-    getEmployerList():Observable<any[]>{
+    getEmployerList():Observable<any[]>
+    {
       return this.http.get<any>(this.APIUrl + '/employer');
     }
 
-    getBooksList():Observable<any[]>{
+    getBooksList():Observable<any[]>
+    {
       return this.http.get<any>(this.APIUrl + '/books');
     }
 
-    addBook(val:any){
+    addBook(val:any)
+    {
       return this.http.post(this.APIUrl+'/books',val);
     }
   
-    updateBook(val:any){
+    updateBook(val:any)
+    {
       return this.http.put(this.APIUrl+'/books',val);
     }
   
-    deleteBook(valNo:any){
-      return this.http.delete(this.APIUrl+'/books/'+valNo);
+    deleteBook(valNo:any)
+    {
+      return this.http.delete(this.APIUrl+'/books/'+ valNo);
     }
-  
-
 }

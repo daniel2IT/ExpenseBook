@@ -8,8 +8,10 @@ import { DatePipe } from '@angular/common';
 })
 export class AddEditBookComponent implements OnInit {
   
-  bookList: any = [];
-  bookList2: any = [];
+  employeeList: any = [];
+  employerList: any = [];
+  
+  selectedEmployer : any;
 
   @Input() dep:any;
   No: string  | any;
@@ -23,21 +25,31 @@ export class AddEditBookComponent implements OnInit {
   Comment: string  | any;
   
   constructor(private service:SharedService, private datePipe: DatePipe) {
-      this.service.getEmployeeList().subscribe(data => {
-        this.bookList = data;
-    });
+
     this.service.getEmployerList().subscribe(data => {
-      this.bookList2 = data;
+      this.employerList = data;
   });
+
+
   setInterval(() => {
   this.Date = datePipe.transform(Date.now(),'yyyy/MM/dd HH:mm:ss');
 }, 1000);  
 }
 
+getbookList () { 
+  this.service.getEmployeeList().subscribe(data => {
+    this.employeeList = data;
+   });
 
-onChangeEvent(event: any){
-  console.log(event.target.value);
+  return this.employeeList.filter((d: { EmployerName: string; })=>d.EmployerName===this.selectedEmployer)
+ }
+
+onChangeEvent(event: any)
+{
+this.selectedEmployer = event.target.value;
 }
+
+
   ngOnInit(): void {
     this.No = this.dep.No;
     this.Project = this.dep.Project;
@@ -58,7 +70,8 @@ onChangeEvent(event: any){
   }
 
   addBook(){
-    var val = {
+    var val = 
+    {
       No:this.No,
       EmployeerName:this.EmployerName,
       EmployeeName:this.EmployeeName,
@@ -67,11 +80,13 @@ onChangeEvent(event: any){
       Spent:this.Spent,
       VAT:this.VAT,
       Total:this.Total,
-      Comment:this.Comment};
+      Comment:this.Comment
+    };
 
-              this.service.addBook(val).subscribe(res=>{
-              alert(res.toString());
-            });
+    this.service.addBook(val).subscribe(res=>
+    {
+      alert(res.toString());
+    });
   }
 
   updateBook(){

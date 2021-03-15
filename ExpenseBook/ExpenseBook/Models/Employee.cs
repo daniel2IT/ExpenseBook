@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ExpenseBook.Models
 {
@@ -10,5 +6,6 @@ namespace ExpenseBook.Models
     {
         [Required]
         public string EmployeeName { get; set; }
+        public string EmployerName { get; set; }
     }
 }

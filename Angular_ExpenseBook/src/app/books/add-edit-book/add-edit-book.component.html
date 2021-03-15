@@ -3,16 +3,16 @@
         <b>EmployerName</b>
         <br>
         <select class="form-control" [(ngModel)]="EmployerName" (change)="onChangeEvent($event)">
-            <option *ngFor="let bookItem of bookList2" [value]="bookItem.EmployerName">
-               <b>{{bookItem.EmployerName}}</b> 
+            <option *ngFor="let employerItem of employerList" [value]="employerItem.EmployerName">
+               <b>{{employerItem.EmployerName}}</b> 
             </option>
         </select>
         <br>
         <b>EmployeeName</b>
         <br>
         <select class="form-control"  [(ngModel)]="EmployeeName">
-            <option *ngFor="let bookItem of bookList" [value]="bookItem.EmployeeName">
-               <b>{{bookItem.EmployeeName}}</b> 
+            <option *ngFor="let employeeItem of getbookList()" [value]="employeeItem.EmployeeName">
+                   {{employeeItem.EmployeeName}}
             </option>
         </select>
         <br>
