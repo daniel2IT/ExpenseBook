@@ -32,7 +32,7 @@ namespace ExpenseBook
             {
                 Settings = new ExecuteMultipleSettings()
                 {
-                    ContinueOnError = true,
+                    ContinueOnError = false,
                     ReturnResponses = true
                 },
                 Requests = new OrganizationRequestCollection()
@@ -41,8 +41,8 @@ namespace ExpenseBook
 
         public static int GetMaxNo(CrmServiceClient service)
         {
-            EntityCollection numberCollection = HelperClass.Query(service, "new_expense", "maxNumber", "");
-            
+            EntityCollection numberCollection = GetNoCollection(service);
+
             int maxNo = 0;
             foreach (Entity app in numberCollection.Entities)
             {
@@ -55,19 +55,67 @@ namespace ExpenseBook
                 return maxNo;
         }
 
-        public static EntityCollection Query(CrmServiceClient service, string entityCollection, string exception, string valueForUpdate)
+        public static EntityCollection GetNoCollection(CrmServiceClient service)
         {
-            if (exception.Equals("maxNumber"))
+            QueryExpression queryEmployer = new QueryExpression("new_employer");
+            queryEmployer.ColumnSet.AddColumns("new_no");
+            queryEmployer.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
+
+            return service.RetrieveMultiple(queryEmployer);
+        }
+
+        public static EntityCollection GetEntityCollection(CrmServiceClient service, string entityName)
+        {
+            List<string> QueryCollumns = new List<string>();
+
+            QueryCollumns.Add("new_name");
+            QueryCollumns.Add("statuscode");
+
+            switch (entityName)
             {
-                QueryExpression query = new QueryExpression(entityCollection); // new_employer
-                query.ColumnSet.AddColumns("new_no");
-                query.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
-
-
-                return service.RetrieveMultiple(query);
+                case "new_expense":
+                    QueryCollumns.Add("new_no");
+                    QueryCollumns.Add("new_date");
+                    QueryCollumns.Add("new_spent");
+                    QueryCollumns.Add("new_vat");
+                    QueryCollumns.Add("new_total");
+                    QueryCollumns.Add("new_comment");
+                    QueryCollumns.Add("new_employee");
+                    break;
+                case "new_employee":
+                    QueryCollumns.Add("new_employer");
+                    QueryCollumns.Add("new_employeeid");
+                    break;
+                case "new_employer":
+                    QueryCollumns.Add("new_employerid");
+                    break;
             }
-            else
+
+            QueryExpression query = new QueryExpression(entityName);
+            // fill query
+            query.ColumnSet.AddColumns(QueryCollumns.ToArray());
+
+            query.Criteria.AddCondition("new_name", ConditionOperator.NotNull);
+
+            if (entityName.Equals("new_expense"))
             {
+                query.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
+                query.Criteria.AddCondition("new_date", ConditionOperator.NotNull);
+                query.Criteria.AddCondition("new_spent", ConditionOperator.NotNull);
+                query.Criteria.AddCondition("new_vat", ConditionOperator.NotNull);
+                query.Criteria.AddCondition("new_total", ConditionOperator.NotNull);
+                query.Criteria.AddCondition("new_comment", ConditionOperator.NotNull);
+                query.Criteria.AddCondition("new_employee", ConditionOperator.NotNull);
+            }
+
+            return service.RetrieveMultiple(query);
+        }
+
+    
+
+            public static EntityCollection Query(CrmServiceClient service, string entityCollection, string exception, string valueForUpdate)
+        {
+           
                 List<string> QueryCollumns = new List<string>();
                 QueryCollumns.Add("new_name");
                 QueryCollumns.Add("statuscode");
@@ -143,7 +191,6 @@ namespace ExpenseBook
                 }
 
                 return service.RetrieveMultiple(query);
-            }
         }
     }
 }

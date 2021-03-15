@@ -15,8 +15,8 @@ export class BooksComponent implements OnInit {
   ModalTitle!: string;
   ActivateAddEditDepComp: boolean = false;
   dep:any;
-  p:any;
-
+  page: any;
+  
   ngOnInit(): void {
     this.refreshBookList();
   }

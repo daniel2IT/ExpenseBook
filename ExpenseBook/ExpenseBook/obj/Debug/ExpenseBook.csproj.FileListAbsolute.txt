@@ -293,8 +293,13 @@ C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\System
 C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\System.Web.WebPages.Razor.xml
 C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\Antlr3.Runtime.pdb
 C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\obj\Debug\ExpenseBook.csprojAssemblyReference.cache
 C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\obj\Debug\ExpenseBook.csproj.CoreCompileInputs.cache
 C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\obj\Debug\ExpenseBook.csproj.CopyComplete
 C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\obj\Debug\ExpenseBook.dll
 C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\obj\Debug\ExpenseBook.pdb
+C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\obj\Debug\ExpenseBook.csprojAssemblyReference.cache
+C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\Ninject.dll
+C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\Ninject.Extensions.ChildKernel.dll
+C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\WebApiContrib.IoC.Ninject.dll
+C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\Ninject.xml
+C:\Users\wdxadmin\Desktop\ExpenseBookOriginal\ExpenseBook\ExpenseBook\bin\Ninject.Extensions.ChildKernel.xml

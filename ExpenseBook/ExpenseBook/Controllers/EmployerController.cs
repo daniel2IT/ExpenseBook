@@ -1,20 +1,23 @@
 ﻿using ExpenseBook.Models;
+using ExpenseBook.Repository;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace ExpenseBook.Controllers
 {
     public class EmployerController : ApiController
     {
-        // GET: Employeer - Using it for dropdown
+        // GET: Employeer
         [HttpGet]
-        public List<Employer> Get() 
+        public HttpResponseMessage Get() 
         {
             try
             {
-                List<Employer> employees = new List<Employer>();
+                List<Employer> employer = new List<Employer>();
                 var service = HelperClass.getCRMServie();
 
                 EntityCollection employeeCollection = HelperClass.Query(service, "new_employer", "", "");
@@ -25,10 +28,10 @@ namespace ExpenseBook.Controllers
 
                     employee.EmployerName = app.Attributes["new_name"].ToString();
 
-                    employees.Add(employee);
+                    employer.Add(employee);
                 }
 
-                return employees;
+                return Request.CreateResponse(HttpStatusCode.OK, employer);
             }
             catch (Exception ex)
             {

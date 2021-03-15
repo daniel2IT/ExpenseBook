@@ -52,7 +52,7 @@ this.selectedEmployer = event.target.value;
     this.No = this.dep.No;
     this.Project = this.dep.Project;
     this.Spent = this.dep.Spent;
-    this.VAT = .21;
+    this.VAT = 21;
     this.Total = this.totalValue(this.dep.Spent);
     this.Comment = this.dep.Comment;
   }

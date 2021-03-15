@@ -11,16 +11,14 @@ namespace ExpenseBook.Controllers
 {
     public class EmployeeController : ApiController
     {
-        // GET: Employee - Using it for dropdown
+        // GET: Employee 
         [HttpGet]
-        public HttpResponseMessage Get() //
+        public HttpResponseMessage Get()
         {
             try
             {
-                // Employee  – dropdown‘as parodantis visus CRM‘e esančius darbuotojų, priklausančius pasirinktam Employer;
-                // Emoloyer dropdown Selected posle chego siuda posupaet Employer Name ... 
-                // I pagal jego , pagal Criteria, my ishem wsiex prinodlezhashix dla etogo Emloyerera
                List<Employee> employees = new List<Employee>();
+
                  var service = HelperClass.getCRMServie();
 
                  EntityCollection employeeCollection =  HelperClass.Query(service, "new_employee", "", "");

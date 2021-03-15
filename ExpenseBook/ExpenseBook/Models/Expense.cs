@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExpenseBook.Models
 {
-    public class Book
+    public class Expense
     {
         [Key]
         public int No { get; set; }

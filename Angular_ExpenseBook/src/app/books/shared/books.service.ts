@@ -24,21 +24,21 @@ export class SharedService {
 
     getBooksList():Observable<any[]>
     {
-      return this.http.get<any>(this.APIUrl + '/books');
+      return this.http.get<any>(this.APIUrl + '/expense');
     }
 
     addBook(val:any)
     {
-      return this.http.post(this.APIUrl+'/books',val);
+      return this.http.post(this.APIUrl+'/expense',val);
     }
   
     updateBook(val:any)
     {
-      return this.http.put(this.APIUrl+'/books',val);
+      return this.http.put(this.APIUrl+'/expense',val);
     }
   
     deleteBook(valNo:any)
     {
-      return this.http.delete(this.APIUrl+'/books/'+ valNo);
+      return this.http.delete(this.APIUrl+'/expense/'+ valNo);
     }
 }

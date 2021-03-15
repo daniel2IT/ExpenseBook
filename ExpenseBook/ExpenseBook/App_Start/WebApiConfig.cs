@@ -7,6 +7,8 @@ namespace ExpenseBook
     {
         public static void Register(HttpConfiguration config)
         {
+            // Configure NijectResolver
+            config.DependencyResolver = new NinjectResolver();
             // Web API configuration and services
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
 
@@ -14,6 +16,7 @@ namespace ExpenseBook
             var cors = new EnableCorsAttribute("http://localhost:4200", "*", "*");
             config.EnableCors(cors);
 
+           
 
             // Web API routes
             config.MapHttpAttributeRoutes();
