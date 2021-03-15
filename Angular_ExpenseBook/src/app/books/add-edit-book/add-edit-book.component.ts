@@ -30,6 +30,9 @@ export class AddEditBookComponent implements OnInit {
       this.employerList = data;
   });
 
+  this.service.getEmployeeList().subscribe(data => {
+    this.employeeList = data;
+   });
 
   setInterval(() => {
   this.Date = datePipe.transform(Date.now(),'yyyy/MM/dd HH:mm:ss');
@@ -37,10 +40,6 @@ export class AddEditBookComponent implements OnInit {
 }
 
 getbookList () { 
-  this.service.getEmployeeList().subscribe(data => {
-    this.employeeList = data;
-   });
-
   return this.employeeList.filter((d: { EmployerName: string; })=>d.EmployerName===this.selectedEmployer)
  }
 
@@ -48,7 +47,6 @@ onChangeEvent(event: any)
 {
 this.selectedEmployer = event.target.value;
 }
-
 
   ngOnInit(): void {
     this.No = this.dep.No;
@@ -62,7 +60,6 @@ this.selectedEmployer = event.target.value;
   modelChanged(newObj : any) {
     this.Total = this.totalValue(newObj);
   }
-
   
   totalValue(Spent: any){
     var vat = this.Spent *  .21;
