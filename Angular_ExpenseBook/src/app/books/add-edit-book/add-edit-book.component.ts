@@ -7,12 +7,16 @@ import { DatePipe } from '@angular/common';
   selector: 'app-add-edit-book',
   templateUrl: './add-edit-book.component.html',
 })
-export class AddEditBookComponent implements OnInit {
+
+export class AddEditBookComponent implements OnInit
+{
   
   employeeList: any = [];
+  employeesFiltered: any = [];
   employerList: any = [];
   
-  selectedEmployer : any;
+  selectedEmployerGUID : any;
+  
 
   @Input() dep:any;
   No: string  | any;
@@ -27,14 +31,12 @@ export class AddEditBookComponent implements OnInit {
   Total: Number  | any;
   Comment: string  | any;
 
-  constructor(private service:SharedService, private datePipe: DatePipe) {
-
+  constructor(private service:SharedService, private datePipe: DatePipe)
+  {
     this.service.getEmployerList().subscribe(data => {
       this.employerList = data;
-
   });
 
- 
 
   this.service.getEmployeeList().subscribe(data => {
     this.employeeList = data;
@@ -48,17 +50,26 @@ export class AddEditBookComponent implements OnInit {
 
 getEmployeeeList()
 { 
-  return this.employeeList.filter((d: { EmployerName: string; })=>d.EmployerName===this.selectedEmployer)
- }
-
-onChangeEvent(event: any)
-{
-  console.log(this.employerList[event.target.value].EmployerId);
-  console.log(this.employerList[event.target.value].EmployerName);
-  this.selectedEmployer = this.employerList[event.target.value].EmployerName;
+  this.employeesFiltered = this.employeeList.filter((d: { EmployerId: string; })=>d.EmployerId===this.selectedEmployerGUID);
+  return this.employeesFiltered;
 }
 
-  ngOnInit(): void {
+onChangeEmployer(event: any)
+{
+  this.EmployerId = this.employerList[event.target.value].EmployerId;
+  console.log("EmployerID " + this.EmployerId);
+
+  this.selectedEmployerGUID = this.employerList[event.target.value].EmployerId;
+}
+
+onChangeEmployee(event: any)
+{
+  this.EmployeeId = this.employeesFiltered[event.target.value].EmployeeId;
+  console.log("EmployeeIndex " + this.EmployeeId); // 0
+}
+
+  ngOnInit(): void
+  {
     this.No = this.dep.No;
     this.Project = this.dep.Project;
     this.Spent = this.dep.Spent;
@@ -67,23 +78,26 @@ onChangeEvent(event: any)
     this.Comment = this.dep.Comment;
   }
 
-  modelChanged(newObj : any) {
+  modelChanged(newObj : any)
+  {
     this.Total = this.totalValue(newObj);
   }
   
-  totalValue(Spent: any){
+  totalValue(Spent: any)
+  {
     var vat = this.Spent *  .21;
     return Number(this.Spent) + Number(vat);
   }
 
-  addBook(){
+  addBook()
+  {
     var val = 
     {
       No:this.No,
-      EmployeerName:this.EmployerName,
-      EmployerId: this.EmployerId,
+      EmployerName:this.EmployerName,
+      EmployerId:this.EmployerId,
       EmployeeName:this.EmployeeName,
-      EmployeeId: this.EmployeeId,
+      EmployeeId:this.EmployeeId,
       Project:this.Project,
       Date:this.Date,
       Spent:this.Spent,
@@ -98,17 +112,22 @@ onChangeEvent(event: any)
     });
   }
 
-  updateBook(){
-    var val = {
+  updateBook()
+  {
+    var val = 
+    {
       No:this.No,
-      EmployeerName:this.EmployerName,
+      EmployerName:this.EmployerName,
+      EmployerId:this.EmployerId,
       EmployeeName:this.EmployeeName,
+      EmployeeId:this.EmployeeId,
       Project:this.Project,
       Date:this.Date,
       Spent:this.Spent,
       VAT:this.VAT,
       Total:this.Total,
-      Comment:this.Comment};
+      Comment:this.Comment
+    };
 
       this.service.updateBook(val).subscribe(res=>{
         alert(res.toString());

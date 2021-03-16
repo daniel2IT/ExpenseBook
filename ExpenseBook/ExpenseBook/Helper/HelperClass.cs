@@ -81,6 +81,7 @@ namespace ExpenseBook
                     QueryCollumns.Add("new_total");
                     QueryCollumns.Add("new_comment");
                     QueryCollumns.Add("new_employee");
+                    QueryCollumns.Add("new_expenseid");
                     break;
                 case "new_employee":
                     QueryCollumns.Add("new_employer");

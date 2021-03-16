@@ -8,7 +8,7 @@ namespace ExpenseBook.Models
         [Key]
         public int No { get; set; }
         [Required]
-        public string EmployeerName { get; set; }
+        public string EmployerName { get; set; }
         public Guid EmployerId { get; set; }
 
         [Required]

@@ -17,27 +17,28 @@ namespace ExpenseBook.Controllers
         {
             try
             {
-                List<Employee> employees = new List<Employee>();
+                List<Employee> employeesList = new List<Employee>();
 
                 var service = HelperClass.getCRMServie();
 
                 EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
 
-                foreach (Entity app in employeeCollection.Entities)
+                foreach (Entity employee in employeeCollection.Entities)
                 {
-                    Employee employee = new Employee();
+                    Employee employeeModel = new Employee();
 
-                    // Get Employee
-                    employee.EmployeeName = app.Attributes["new_name"].ToString();
+                    employeeModel.EmployeeName = employee.Attributes["new_name"].ToString();
 
-                    // Get Employer
-                    Guid EmployeeId = (Guid)app.Attributes["new_employeeid"];
-                    employee.EmployerName = employeeCollection.Entities.FirstOrDefault(x => x.Id == EmployeeId).GetAttributeValue<EntityReference>("new_employer").Name.ToString();
+                    // Get Employee ID
+                    employeeModel.EmployeeId = (Guid)employee.Attributes["new_employeeid"];
 
-                    employees.Add(employee);
+                    // Get Employer ID
+                    employeeModel.EmployerId = employeeCollection.Entities.FirstOrDefault(entity => entity.Id == employeeModel.EmployeeId).GetAttributeValue<EntityReference>("new_employer").Id;
+
+                    employeesList.Add(employeeModel);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, employees);
+                return Request.CreateResponse(HttpStatusCode.OK, employeesList);
             }
             catch (Exception ex)
             {

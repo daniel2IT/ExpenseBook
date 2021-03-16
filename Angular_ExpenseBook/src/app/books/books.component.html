@@ -32,7 +32,7 @@ data-backdrop="static" data-keyboard="false"> <!--User can't close window outsid
     <thead>
         <tr>
             <th> No </th>
-            <th> EmployeerName </th>
+            <th> EmployerName </th>
             <th> EmployeeName </th>
             <th> Project </th>
             <th> Date </th>
@@ -45,7 +45,7 @@ data-backdrop="static" data-keyboard="false"> <!--User can't close window outsid
     <tbody>
         <tr *ngFor="let bookItem of bookList | paginate: { itemsPerPage: 5, currentPage: page }">
             <td>{{bookItem.No}}</td>
-            <td>{{bookItem.EmployeerName}}</td>
+            <td>{{bookItem.EmployerName}}</td>
             <td>{{bookItem.EmployeeName}}</td>
             <td>{{bookItem.Project}}</td>
             <td>{{bookItem.Date}}</td>

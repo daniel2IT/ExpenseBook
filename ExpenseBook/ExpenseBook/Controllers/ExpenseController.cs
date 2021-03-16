@@ -5,7 +5,6 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -55,13 +54,13 @@ namespace ExpenseBook.Controllers
                 using (CrmServiceClient service = HelperClass.getCRMServie())
                 {
 
-                // Get Employee set -> (reference)
-                EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
+                    // Get Employee set -> (for reference)
+                    EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
 
-                // Create Expense
-               // service.Create(_repository.CreateExpense(postExpense, employeeCollection, service));
+                    // Create Expense
+                    service.Create(_repository.CreateExpense(postExpense, employeeCollection, service));
 
-                return "Added Successfully ! ";
+                    return "Added Successfully ! ";
                 }
             }
             catch (Exception ex)
@@ -72,47 +71,20 @@ namespace ExpenseBook.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public string Put(Expense expense)
+        public string Put(Expense putExpense)
         {
-            if (!ModelState.IsValid)
-            {
-                return Convert.ToString(BadRequest("Not a valid model"));
-            }
             try
             {
                 var service = HelperClass.getCRMServie();
 
                 ExecuteMultipleRequest executeMultiple = HelperClass.MultipleRequestSetUp();
 
-                // Get Expense
-                EntityCollection expenseCollection = HelperClass.Query(service, "new_expense", "new_expenseid", Convert.ToString(expense.No));
-                Guid expenceId = expenseCollection.Entities[0].GetAttributeValue<Guid>("new_expenseid");
+                // Get Collection Data
+                EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
+                EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
+                EntityCollection employerCollection = HelperClass.GetEntityCollection(service, "new_employer");
 
-                Entity expenseEntity = new Entity("new_expense", expenceId);
-                expenseEntity["new_name"] = expense.Project;
-                expenseEntity["new_date"] = expense.Date;
-                expenseEntity["new_spent"] = new Money((decimal)expense.Spent);
-                expenseEntity["new_vat"] = new Money((decimal)expense.VAT);
-                expenseEntity["new_total"] = new Money((decimal)expense.Total);
-                expenseEntity["new_comment"] = expense.Comment;
-                
-                // Get Employee && Update Expense
-                EntityCollection employeeCollection = HelperClass.Query(service, "new_employee", "new_employeeid", expense.EmployeeName);
-                Guid employeeNewId = employeeCollection.Entities[0].GetAttributeValue<Guid>("new_employeeid");
-
-                expenseEntity["new_employee"] = new EntityReference("new_employee", employeeNewId);
-                UpdateRequest reqUpdateExpense = new UpdateRequest { Target = expenseEntity };
-                executeMultiple.Requests.Add(reqUpdateExpense);
-             
-
-                // Get Employer && Update Employee
-                EntityCollection employerCollection = HelperClass.Query(service, "new_employer", "new_employerid", expense.EmployeerName);
-                Guid employerId = employerCollection.Entities[0].GetAttributeValue<Guid>("new_employerid");
-
-                Entity employeeEntity = new Entity("new_employee", employeeNewId);
-                employeeEntity["new_employer"] = new EntityReference("new_employer", employerId);
-                UpdateRequest reqUpdateEmployee = new UpdateRequest { Target = employeeEntity };
-                executeMultiple.Requests.Add(reqUpdateEmployee);
+                _repository.UpdateExpense(executeMultiple, expenseCollection, putExpense);
 
                 ExecuteMultipleResponse executeMultipleResponses = (ExecuteMultipleResponse)service.Execute(executeMultiple);
 
@@ -126,16 +98,16 @@ namespace ExpenseBook.Controllers
 
         // DELETE api/values/5
         [HttpDelete]
-        public string Delete(int id)
+        public string Delete(int Id)
         {
             try
             {
                 var service = HelperClass.getCRMServie();
 
-                EntityCollection expenseCollection = HelperClass.Query(service, "new_expense", "new_expenseid", Convert.ToString(id));
-                Guid expenceId = expenseCollection.Entities[0].GetAttributeValue<Guid>("new_expenseid");
+                // Get Collection Data
+                EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
 
-                service.Delete("new_expense",expenceId);
+                service.Delete("new_expense", _repository.Delete(expenseCollection, Convert.ToString(Id)));
 
                 return "Record Successfully Deleted";
             }

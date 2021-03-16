@@ -1,6 +1,8 @@
 ﻿using ExpenseBook.Models;
 using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Tooling.Connector;
+using System;
 using System.Collections.Generic;
 
 namespace ExpenseBook.Repository
@@ -10,5 +12,9 @@ namespace ExpenseBook.Repository
         IEnumerable<Expense> GetExpense(EntityCollection expenseCollection, EntityCollection employeeCollection);
       
         Entity CreateExpense(Expense postExpense, EntityCollection employeeCollection, CrmServiceClient service);
+
+        ExecuteMultipleRequest UpdateExpense(ExecuteMultipleRequest executeMultiple, EntityCollection expenseCollection, Expense putExpense);
+
+        Guid Delete(EntityCollection expenseCollection, string s);
     }
 }
