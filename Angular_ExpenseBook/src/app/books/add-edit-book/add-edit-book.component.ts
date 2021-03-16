@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SharedService } from '../shared/books.service';
 import { DatePipe } from '@angular/common';
 
+
 @Component({
   selector: 'app-add-edit-book',
   templateUrl: './add-edit-book.component.html',
@@ -16,19 +17,24 @@ export class AddEditBookComponent implements OnInit {
   @Input() dep:any;
   No: string  | any;
   EmployerName: string  | any;
+  EmployerId : string | any;
   EmployeeName: string  | any;
+  EmployeeId: string | any;
   Project: string  | any;
   Date: Date  | any;
   Spent: Number  | any;
   VAT: Number  | any;
   Total: Number  | any;
   Comment: string  | any;
-  
+
   constructor(private service:SharedService, private datePipe: DatePipe) {
 
     this.service.getEmployerList().subscribe(data => {
       this.employerList = data;
+
   });
+
+ 
 
   this.service.getEmployeeList().subscribe(data => {
     this.employeeList = data;
@@ -39,13 +45,17 @@ export class AddEditBookComponent implements OnInit {
 }, 1000);  
 }
 
-getbookList () { 
+
+getEmployeeeList()
+{ 
   return this.employeeList.filter((d: { EmployerName: string; })=>d.EmployerName===this.selectedEmployer)
  }
 
 onChangeEvent(event: any)
 {
-this.selectedEmployer = event.target.value;
+  console.log(this.employerList[event.target.value].EmployerId);
+  console.log(this.employerList[event.target.value].EmployerName);
+  this.selectedEmployer = this.employerList[event.target.value].EmployerName;
 }
 
   ngOnInit(): void {
@@ -71,7 +81,9 @@ this.selectedEmployer = event.target.value;
     {
       No:this.No,
       EmployeerName:this.EmployerName,
+      EmployerId: this.EmployerId,
       EmployeeName:this.EmployeeName,
+      EmployeeId: this.EmployeeId,
       Project:this.Project,
       Date:this.Date,
       Spent:this.Spent,

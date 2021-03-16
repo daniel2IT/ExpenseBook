@@ -9,9 +9,11 @@ namespace ExpenseBook.Models
         public int No { get; set; }
         [Required]
         public string EmployeerName { get; set; }
+        public Guid EmployerId { get; set; }
 
         [Required]
         public string EmployeeName { get; set; }
+        public Guid EmployeeId { get; set; }
 
         [Required]
         public string Project { get; set; }

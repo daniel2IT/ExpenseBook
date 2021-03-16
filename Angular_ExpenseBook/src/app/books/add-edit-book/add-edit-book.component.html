@@ -3,15 +3,16 @@
         <b>EmployerName</b>
         <br>
         <select class="form-control" [(ngModel)]="EmployerName" (change)="onChangeEvent($event)">
-            <option *ngFor="let employerItem of employerList" [value]="employerItem.EmployerName">
+            <option *ngFor="let employerItem of employerList; let i = index" [value]="i">
                <b>{{employerItem.EmployerName}}</b> 
             </option>
         </select>
         <br>
+        <br>
         <b>EmployeeName</b>
         <br>
         <select class="form-control"  [(ngModel)]="EmployeeName">
-            <option *ngFor="let employeeItem of getbookList()" [value]="employeeItem.EmployeeName">
+            <option *ngFor="let employeeItem of getEmployeeeList()" [value]="employeeItem.EmployeeName">
                    {{employeeItem.EmployeeName}}
             </option>
         </select>

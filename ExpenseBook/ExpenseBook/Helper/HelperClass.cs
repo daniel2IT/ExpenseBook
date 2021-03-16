@@ -57,7 +57,7 @@ namespace ExpenseBook
 
         public static EntityCollection GetNoCollection(CrmServiceClient service)
         {
-            QueryExpression queryEmployer = new QueryExpression("new_employer");
+            QueryExpression queryEmployer = new QueryExpression("new_expense");
             queryEmployer.ColumnSet.AddColumns("new_no");
             queryEmployer.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
 
@@ -114,7 +114,7 @@ namespace ExpenseBook
     
 
             public static EntityCollection Query(CrmServiceClient service, string entityCollection, string exception, string valueForUpdate)
-        {
+            {
            
                 List<string> QueryCollumns = new List<string>();
                 QueryCollumns.Add("new_name");

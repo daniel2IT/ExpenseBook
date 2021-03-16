@@ -23,21 +23,22 @@ namespace ExpenseBook.Controllers
         }
 
         // GET: Books
-        [Route()]
+        [HttpGet]
         public HttpResponseMessage Get()
         {
             try
             {
-                CrmServiceClient service = HelperClass.getCRMServie();
+                using (CrmServiceClient service = HelperClass.getCRMServie())
+                {
+                    // Get Collection Data
+                    EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
+                    EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
 
-                // Get Collection Data
-                EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
-                EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
+                    // Merge && Get Data From Collection
+                    IEnumerable<Expense> getExpenses = _repository.GetExpense(expenseCollection, employeeCollection);
 
-                // Merge && Get Data From Collection
-                IEnumerable<Expense> expenses = _repository.GetExpense(expenseCollection, employeeCollection);
-
-                return Request.CreateResponse(HttpStatusCode.OK, expenses);
+                    return Request.CreateResponse(HttpStatusCode.OK, getExpenses);
+                } 
             }
             catch(Exception ex)
             {
@@ -47,33 +48,21 @@ namespace ExpenseBook.Controllers
 
         // POST api/values
         [HttpPost]
-        public string Post(Expense expense)
+        public string Post(Expense postExpense)
         {
             try
             {
-                var service = HelperClass.getCRMServie();
-
-                ExecuteMultipleRequest executeMultiple = HelperClass.MultipleRequestSetUp();
-
-                Entity expenseEntity = new Entity("new_expense");
-                
-                expenseEntity["new_no"] = Convert.ToString(HelperClass.GetMaxNo(service) + 1); 
-
-                expenseEntity["new_name"] = expense.Project;
-                expenseEntity["new_date"] = expense.Date;
-                expenseEntity["new_spent"] = new Money((decimal)expense.Spent);
-                expenseEntity["new_vat"] = new Money((decimal)expense.VAT);
-                expenseEntity["new_total"] = new Money((decimal)expense.Total);
-                expenseEntity["new_comment"] = expense.Comment;
+                using (CrmServiceClient service = HelperClass.getCRMServie())
+                {
 
                 // Get Employee set -> (reference)
-                EntityCollection employeeCollection = HelperClass.Query(service, "new_employee", expense.EmployeeName, "");
-                var EmployeeId = employeeCollection.Entities[0].GetAttributeValue<Guid>("new_employeeid");
-                expenseEntity["new_employee"] = new EntityReference("new_employee", EmployeeId);
+                EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
 
-                service.Create(expenseEntity);
+                // Create Expense
+               // service.Create(_repository.CreateExpense(postExpense, employeeCollection, service));
 
                 return "Added Successfully ! ";
+                }
             }
             catch (Exception ex)
             {

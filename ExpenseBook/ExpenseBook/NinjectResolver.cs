@@ -24,7 +24,7 @@ namespace ExpenseBook
             }
         }
 
-        public System.Web.Http.Dependencies.IDependencyScope BeginScope()
+        public IDependencyScope BeginScope()
         {
             return new NinjectResolver(AddRequestBindings(new ChildKernel(kernel)), true);
         }
@@ -39,10 +39,7 @@ namespace ExpenseBook
             return kernel.GetAll(serviceType);
         }
 
-        public void Dispose()
-        {
-
-        }
+        public void Dispose(){}
 
         private void AddBindings(IKernel kernel)
         {
