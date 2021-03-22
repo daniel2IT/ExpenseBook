@@ -40,8 +40,6 @@ export class AddEditExpenseComponent implements OnInit
 
   onChangeEmployee(event: any)
   {
-    
-
     this.EmployeeId = event.target.value;
     console.log("EmployeeID " + this.EmployeeId);
   }
@@ -68,6 +66,11 @@ export class AddEditExpenseComponent implements OnInit
     // Set Real Default Data 
     this.EmployerId = this.expense.EmployerId;
     this.EmployeeId = this.expense.EmployeeId;
+
+    // Just For Test:
+    console.log("EmployeeID " + this.EmployeeId);
+    console.log("EmployerID " + this.EmployerId);
+
   }
 
   SpentValueChanged(newObj : any)
