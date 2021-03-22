@@ -1,6 +1,7 @@
 ﻿using ExpenseBook.Models;
 using ExpenseBook.Repository;
 using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -17,23 +18,28 @@ namespace ExpenseBook.Controllers
         {
             try
             {
-                List<Employer> employerList = new List<Employer>();
-                var service = HelperClass.getCRMServie();
+              
+                    List<Employer> employerList = new List<Employer>();
+                    var service = HelperClass.getCRMServie();
 
-                EntityCollection employerCollection = HelperClass.GetEntityCollection(service, "new_employer");
+                    EntityCollection employerCollection = HelperClass.GetEntityCollection(service, "new_employer");
 
-                foreach (Entity employer in employerCollection.Entities)
-                {
-                    Employer employerModel = new Employer();
+                    foreach (Entity employer in employerCollection.Entities)
+                    {
+                        Employer employerModel = new Employer();
 
-                    // Get Employer
-                    employerModel.EmployerId = employer.Id;
-                    employerModel.EmployerName = employer.Attributes["new_name"].ToString();
+                        // Get Employer
+                        employerModel.EmployerId = employer.Id;
+                        employerModel.EmployerName = employer.Attributes["new_name"].ToString();
 
-                    employerList.Add(employerModel);
-                }
+                        employerList.Add(employerModel);
+                    }
 
-                return Request.CreateResponse(HttpStatusCode.OK, employerList);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, employerList);
+
+                
+
             }
             catch (Exception ex)
             {

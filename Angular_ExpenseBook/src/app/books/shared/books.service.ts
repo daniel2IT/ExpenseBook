@@ -12,14 +12,9 @@ export class SharedService {
 
   constructor(private http:HttpClient) {}
     
-    getEmployeeList():Observable<any[]>
+    getWorkerList():Observable<any[]>
     {
-      return this.http.get<any>(this.APIUrl + '/employee');
-    }
-
-    getEmployerList():Observable<any[]>
-    {
-      return this.http.get<any>(this.APIUrl + '/employer');
+      return this.http.get<any>(this.APIUrl + '/worker');
     }
 
     getBooksList():Observable<any[]>

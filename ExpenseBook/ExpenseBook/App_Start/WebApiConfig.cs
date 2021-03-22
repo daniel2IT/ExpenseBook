@@ -16,8 +16,6 @@ namespace ExpenseBook
             var cors = new EnableCorsAttribute("http://localhost:4200", "*", "*");
             config.EnableCors(cors);
 
-           
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

@@ -3,18 +3,20 @@
         <b>EmployerName</b>
         <br>
         <select class="form-control" [(ngModel)]="EmployerName" (change)="onChangeEmployer($event)">
-            <option *ngFor="let employerItem of employerList; let i = index" [value]="i">
-               <b>{{employerItem.EmployerName}}</b> 
-            </option>
+            <ng-container *ngFor="let employerItem of workerList; let i = index">
+                <option *ngIf="employerItem.EmployeeId==='00000000-0000-0000-0000-000000000000'" [value]="i">
+                <b>{{employerItem.EmployerName}}</b> 
+                </option>
+            </ng-container>
         </select>
         <br>
         <br>
         <b>EmployeeName</b>
         <br>
         <select class="form-control"  [(ngModel)]="EmployeeName" (change)="onChangeEmployee($event)">
-            <option *ngFor="let employeeItem of getEmployeeeList(); let i = index" [value]="i">
-                   {{employeeItem.EmployeeName}}
-            </option>
+                <option *ngFor="let employeeItem of getEmployeeeList(); let i = index" [value]="i">
+                    {{employeeItem.EmployeeName}}
+                </option>
         </select>
         <br>
         <b>Project</b>

@@ -10,10 +10,9 @@ import { DatePipe } from '@angular/common';
 
 export class AddEditBookComponent implements OnInit
 {
-  
-  employeeList: any = [];
+
+  workerList: any = [];
   employeesFiltered: any = [];
-  employerList: any = [];
   
   selectedEmployerGUID : any;
   
@@ -33,14 +32,9 @@ export class AddEditBookComponent implements OnInit
 
   constructor(private service:SharedService, private datePipe: DatePipe)
   {
-    this.service.getEmployerList().subscribe(data => {
-      this.employerList = data;
+   this.service.getWorkerList().subscribe(data => {
+    this.workerList = data;
   });
-
-
-  this.service.getEmployeeList().subscribe(data => {
-    this.employeeList = data;
-   });
 
   setInterval(() => {
   this.Date = datePipe.transform(Date.now(),'yyyy/MM/dd HH:mm:ss');
@@ -50,16 +44,16 @@ export class AddEditBookComponent implements OnInit
 
 getEmployeeeList()
 { 
-  this.employeesFiltered = this.employeeList.filter((d: { EmployerId: string; })=>d.EmployerId===this.selectedEmployerGUID);
+  this.employeesFiltered = this.workerList.filter((d: { EmployerRefId: string; })=>d.EmployerRefId===this.selectedEmployerGUID);
   return this.employeesFiltered;
 }
 
 onChangeEmployer(event: any)
 {
-  this.EmployerId = this.employerList[event.target.value].EmployerId;
+  this.EmployerId = this.workerList[event.target.value].EmployerId;
   console.log("EmployerID " + this.EmployerId);
 
-  this.selectedEmployerGUID = this.employerList[event.target.value].EmployerId;
+  this.selectedEmployerGUID = this.workerList[event.target.value].EmployerId;
 }
 
 onChangeEmployee(event: any)
