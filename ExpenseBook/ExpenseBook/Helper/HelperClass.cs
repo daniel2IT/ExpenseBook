@@ -11,7 +11,7 @@ namespace ExpenseBook
 {
     public class HelperClass
     {
-        public static CrmServiceClient getCRMServie()
+        public static CrmServiceClient getCRMService()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 

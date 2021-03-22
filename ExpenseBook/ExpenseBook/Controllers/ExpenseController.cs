@@ -4,7 +4,6 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Tooling.Connector;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -13,30 +12,25 @@ namespace ExpenseBook.Controllers
 {
     public class ExpenseController : ApiController
     {
-
         private readonly IExpenseRepository _repository;
-
         public ExpenseController(IExpenseRepository repository)
         {
             _repository = repository; 
         }
 
-        // GET: Books
+        // GET
         [HttpGet]
         public HttpResponseMessage Get()
         {
             try
             {
-                using (CrmServiceClient service = HelperClass.getCRMServie())
+                using (CrmServiceClient service = HelperClass.getCRMService())
                 {
                     // Get Collection Data
                     EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
                     EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
 
-                    // Merge && Get Data From Collection
-                    IEnumerable<Expense> getExpenses = _repository.GetExpense(expenseCollection, employeeCollection);
-                    
-                    return Request.CreateResponse(HttpStatusCode.OK, getExpenses);
+                    return Request.CreateResponse(HttpStatusCode.OK, _repository.GetExpense(expenseCollection, employeeCollection));
                 } 
             }
             catch(Exception ex)
@@ -51,7 +45,7 @@ namespace ExpenseBook.Controllers
         {
             try
             {
-                using (CrmServiceClient service = HelperClass.getCRMServie())
+                using (CrmServiceClient service = HelperClass.getCRMService())
                 {
 
                     // Get Employee set -> (for reference)
@@ -75,20 +69,20 @@ namespace ExpenseBook.Controllers
         {
             try
             {
-                var service = HelperClass.getCRMServie();
+                using (CrmServiceClient service = HelperClass.getCRMService())
+                {
+                    ExecuteMultipleRequest executeMultiple = HelperClass.MultipleRequestSetUp();
 
-                ExecuteMultipleRequest executeMultiple = HelperClass.MultipleRequestSetUp();
+                    // Get Collection Data
+                    EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
+                    EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
+                    EntityCollection employerCollection = HelperClass.GetEntityCollection(service, "new_employer");
 
-                // Get Collection Data
-                EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
-                EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
-                EntityCollection employerCollection = HelperClass.GetEntityCollection(service, "new_employer");
+                    // Update
+                    ExecuteMultipleResponse executeMultipleResponses = (ExecuteMultipleResponse)service.Execute(_repository.UpdateExpense(executeMultiple, expenseCollection, putExpense));
 
-                _repository.UpdateExpense(executeMultiple, expenseCollection, putExpense);
-
-                ExecuteMultipleResponse executeMultipleResponses = (ExecuteMultipleResponse)service.Execute(executeMultiple);
-
-                return "Updated Successfully ! ";
+                    return "Updated Successfully ! ";
+                }
             }
             catch (Exception ex)
             {
@@ -102,14 +96,15 @@ namespace ExpenseBook.Controllers
         {
             try
             {
-                var service = HelperClass.getCRMServie();
+                using (CrmServiceClient service = HelperClass.getCRMService())
+                {
+                    // Get Collection Data
+                    EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
 
-                // Get Collection Data
-                EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
+                    service.Delete("new_expense", _repository.Delete(expenseCollection, Convert.ToString(Id)));
 
-                service.Delete("new_expense", _repository.Delete(expenseCollection, Convert.ToString(Id)));
-
-                return "Record Successfully Deleted";
+                    return "Record Successfully Deleted";
+                }
             }
             catch (Exception ex)
             {

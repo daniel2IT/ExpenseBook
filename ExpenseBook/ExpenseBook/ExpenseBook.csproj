@@ -176,16 +176,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
-    <Compile Include="Controllers\EmployeeController.cs" />
-    <Compile Include="Controllers\EmployerController.cs" />
     <Compile Include="Controllers\WorkerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\HelperClass.cs" />
     <Compile Include="Models\Expense.cs" />
-    <Compile Include="Models\Employee.cs" />
-    <Compile Include="Models\Employer.cs" />
     <Compile Include="Models\Worker.cs" />
     <Compile Include="NinjectResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

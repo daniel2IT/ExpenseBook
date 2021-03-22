@@ -20,7 +20,7 @@ namespace ExpenseBook.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public String Date { get; set; }
 
         [Required]
         public decimal Spent { get; set; }

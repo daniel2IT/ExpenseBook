@@ -2,10 +2,10 @@
     <div class="col-sm-10">
         <b>EmployerName</b>
         <br>
-        <select class="form-control" [(ngModel)]="EmployerName" (change)="onChangeEmployer($event)">
+        <select class="form-control" (change)="onChangeEmployer($event)" [(ngModel)]="EmployerName" >
             <ng-container *ngFor="let employerItem of workerList; let i = index">
-                <option *ngIf="employerItem.EmployeeId==='00000000-0000-0000-0000-000000000000'" [value]="i">
-                <b>{{employerItem.EmployerName}}</b> 
+                <option *ngIf="employerItem.EmployerId!=='00000000-0000-0000-0000-000000000000'" [value]="i">
+                    <b>{{employerItem.EmployerName}}</b> 
                 </option>
             </ng-container>
         </select>
@@ -14,26 +14,33 @@
         <b>EmployeeName</b>
         <br>
         <select class="form-control"  [(ngModel)]="EmployeeName" (change)="onChangeEmployee($event)">
-                <option *ngFor="let employeeItem of getEmployeeeList(); let i = index" [value]="i">
+            <ng-container *ngFor="let employeeItem of getEmployeeeList(); let i = index">
+                <option *ngIf="employeeItem.EmployeeId!=='00000000-0000-0000-0000-000000000000'" [value]="i">
                     {{employeeItem.EmployeeName}}
                 </option>
+            </ng-container>
         </select>
         <br>
         <b>Project</b>
         <input type="text" class="form-control" [(ngModel)]="Project"
-        placeholder="Enter Department Name">
+        placeholder="Enter Expense Name">
         <b>Date</b>
         <input type="text" class="form-control" [(ngModel)]="Date"
-        placeholder="Enter Department Name" [readonly]="true" >
+        placeholder="Enter Date" [readonly]="true" >
+
+        <input
+        placeholder="Datepicker"
+        class="form-control"
+        #dp="bsDatepicker"
+        bsDatepicker>
+        
         <b>Spent</b>
         <input type="text" class="form-control" [(ngModel)]="Spent" 
-        placeholder="Enter Department Name" (ngModelChange)="modelChanged($event)">
+        placeholder="Enter Spent Value" (ngModelChange)="SpentValueChanged($event)">
         <b>VAT</b>
-        <input type="text" class="form-control" [(ngModel)]="VAT"
-        placeholder="Enter Department Name" [readonly]="true">
+        <input type="text" class="form-control" [(ngModel)]="VAT" [readonly]="true">
         <b>Total</b>
-        <input type="text" class="form-control" [(ngModel)]="Total"
-        placeholder="Enter Department Name" [readonly]="true">
+        <input type="text" class="form-control" [(ngModel)]="Total" [readonly]="true">
         <b>Comment</b>
         <input type="text" class="form-control" matInput #input maxlength="300" placeholder="Enter some input" [(ngModel)]="Comment">
         <i class="pull-right">{{input.value?.length || 0}}/300</i>

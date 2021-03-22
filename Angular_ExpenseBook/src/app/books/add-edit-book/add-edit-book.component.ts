@@ -10,12 +10,10 @@ import { DatePipe } from '@angular/common';
 
 export class AddEditBookComponent implements OnInit
 {
-
   workerList: any = [];
   employeesFiltered: any = [];
   
   selectedEmployerGUID : any;
-  
 
   @Input() dep:any;
   No: string  | any;
@@ -30,6 +28,8 @@ export class AddEditBookComponent implements OnInit
   Total: Number  | any;
   Comment: string  | any;
 
+  startDate: Date| any;
+
   constructor(private service:SharedService, private datePipe: DatePipe)
   {
    this.service.getWorkerList().subscribe(data => {
@@ -39,13 +39,6 @@ export class AddEditBookComponent implements OnInit
   setInterval(() => {
   this.Date = datePipe.transform(Date.now(),'yyyy/MM/dd HH:mm:ss');
 }, 1000);  
-}
-
-
-getEmployeeeList()
-{ 
-  this.employeesFiltered = this.workerList.filter((d: { EmployerRefId: string; })=>d.EmployerRefId===this.selectedEmployerGUID);
-  return this.employeesFiltered;
 }
 
 onChangeEmployer(event: any)
@@ -59,28 +52,57 @@ onChangeEmployer(event: any)
 onChangeEmployee(event: any)
 {
   this.EmployeeId = this.employeesFiltered[event.target.value].EmployeeId;
-  console.log("EmployeeIndex " + this.EmployeeId); // 0
+  console.log("EmployeeID " + this.EmployeeId);
+}
+
+getEmployerList()
+{
+  this.employeesFiltered = this.workerList.filter((d: { EmployerRefId: string; })=>d.EmployerRefId===this.selectedEmployerGUID);
+  return this.employeesFiltered;
+}
+
+getEmployeeeList()
+{
+    this.employeesFiltered = this.workerList.filter((d: { EmployerRefId: string; })=>d.EmployerRefId===this.selectedEmployerGUID);
+    return this.employeesFiltered;
 }
 
   ngOnInit(): void
   {
+    this.EmployeeName = 0;
+    this.EmployerName = 0;
+
+    this.startDate = new Date(); 
+
+    this.EmployerId = this.dep.EmployerId;
+    this.selectedEmployerGUID = this.EmployerId;
+
+    this.EmployeeId = this.dep.EmployeeId;
+
     this.No = this.dep.No;
     this.Project = this.dep.Project;
     this.Spent = this.dep.Spent;
-    this.VAT = 21;
+    this.VAT = this.totalVAT(this.dep.Spent);
     this.Total = this.totalValue(this.dep.Spent);
     this.Comment = this.dep.Comment;
   }
 
-  modelChanged(newObj : any)
+  SpentValueChanged(newObj : any)
   {
     this.Total = this.totalValue(newObj);
+    this.VAT = this.totalVAT(newObj);
   }
   
   totalValue(Spent: any)
   {
     var vat = this.Spent *  .21;
     return Number(this.Spent) + Number(vat);
+  }
+
+  totalVAT(Spent: any)
+  {
+    var vat = this.Spent *  .21;
+    return vat;
   }
 
   addBook()

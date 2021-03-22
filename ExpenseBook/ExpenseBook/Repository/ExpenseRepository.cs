@@ -34,6 +34,38 @@ namespace ExpenseBook.Repository
             return expenceId;
         }
 
+        public IEnumerable<Worker> GetWorker(EntityCollection employerCollection, EntityCollection employeeCollection)
+        {
+            List<Worker> workerList = new List<Worker>();
+
+            foreach (Entity employer in employerCollection.Entities)
+            {
+                Worker employerModel = new Worker();
+
+                employerModel.EmployerId = employer.Id;
+                employerModel.EmployerName = employer.Attributes["new_name"].ToString();
+
+                workerList.Add(employerModel);
+            }
+
+            // Get Employee Section
+            foreach (Entity employee in employeeCollection.Entities)
+            {
+                Worker employeeModel = new Worker();
+                employeeModel.EmployeeName = employee.Attributes["new_name"].ToString();
+
+                // Get Employee ID
+                employeeModel.EmployeeId = (Guid)employee.Attributes["new_employeeid"];
+
+                // Get Employer ID
+                employeeModel.EmployerRefId = employeeCollection.Entities.FirstOrDefault(entity => entity.Id == employeeModel.EmployeeId).GetAttributeValue<EntityReference>("new_employer").Id;
+                workerList.Add(employeeModel);
+            }
+
+
+            return workerList;
+        }
+
         public IEnumerable<Expense> GetExpense(EntityCollection expenseCollection, EntityCollection employeeCollection)
         {
             List<Expense> expenses = new List<Expense>();
@@ -43,14 +75,17 @@ namespace ExpenseBook.Repository
                 Expense expense = new Expense();
 
                 expense.No = Convert.ToInt32(app.Attributes["new_no"]);
+
+                // Get Employee Id&&Name
+                expense.EmployeeId  = (Guid)((EntityReference)app.Attributes["new_employee"]).Id;
                 expense.EmployeeName = ((EntityReference)app.Attributes["new_employee"]).Name;
 
-                // Get Employeer Name
-                Guid EmployeeId = (Guid)((EntityReference)app.Attributes["new_employee"]).Id;
-                expense.EmployerName = employeeCollection.Entities.FirstOrDefault(employee => employee.Id == EmployeeId).GetAttributeValue<EntityReference>("new_employer").Name.ToString();
-
+                // Get Employer Id&&Name
+                expense.EmployerId = employeeCollection.Entities.FirstOrDefault(employee => employee.Id == expense.EmployeeId).GetAttributeValue<EntityReference>("new_employer").Id;
+                expense.EmployerName = employeeCollection.Entities.FirstOrDefault(employee => employee.Id == expense.EmployeeId).GetAttributeValue<EntityReference>("new_employer").Name.ToString();
+                
                 expense.Project = app.Attributes["new_name"].ToString();
-                expense.Date = Convert.ToDateTime(app.Attributes["new_date"]);
+                expense.Date = Convert.ToDateTime(app.Attributes["new_date"]).ToShortDateString();
                 expense.Spent = Convert.ToDecimal(app.GetAttributeValue<Money>("new_spent").Value);
                 expense.VAT = Convert.ToDecimal(app.GetAttributeValue<Money>("new_vat").Value);
                 expense.Total = Convert.ToDecimal(app.GetAttributeValue<Money>("new_total").Value);
@@ -86,10 +121,7 @@ namespace ExpenseBook.Repository
             employeeEntity["new_employer"] = new EntityReference("new_employer", employerId);
             UpdateRequest reqUpdateEmployee = new UpdateRequest { Target = employeeEntity };
 
-
-
             executeMultiple.Requests.Add(reqUpdateEmployee);
-
 
             return executeMultiple;
         }

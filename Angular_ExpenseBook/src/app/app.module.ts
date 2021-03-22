@@ -10,7 +10,9 @@ import { AddEditBookComponent } from './books/add-edit-book/add-edit-book.compon
 import { EventsAppComponent } from './events-app.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
+import {BsDatepickerModule } from 'ngx-bootstrap/datepicker'
 
 @NgModule({
   imports: [
@@ -18,7 +20,9 @@ import { DatePipe } from '@angular/common';
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     FormsModule, 
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatDatepickerModule,
+    BsDatepickerModule.forRoot()
   ],
   declarations: [
     EventsAppComponent,
