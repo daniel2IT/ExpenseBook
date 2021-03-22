@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http'
 import {Observable} from 'rxjs';
 
@@ -8,7 +7,6 @@ import {Observable} from 'rxjs';
 })
 export class SharedService {
   readonly APIUrl = "https://localhost:44388/api";
-  readonly BooksUrl = "https://localhost:44388/api/books";
 
   constructor(private http:HttpClient) {}
     
@@ -17,22 +15,22 @@ export class SharedService {
       return this.http.get<any>(this.APIUrl + '/worker');
     }
 
-    getBooksList():Observable<any[]>
+    getExpenseList():Observable<any[]>
     {
       return this.http.get<any>(this.APIUrl + '/expense');
     }
 
-    addBook(val:any)
+    addExpense(val:any)
     {
       return this.http.post(this.APIUrl+'/expense',val);
     }
   
-    updateBook(val:any)
+    updateExpense(val:any)
     {
       return this.http.put(this.APIUrl+'/expense',val);
     }
   
-    deleteBook(valNo:any)
+    deleteExpense(valNo:any)
     {
       return this.http.delete(this.APIUrl+'/expense/'+ valNo);
     }

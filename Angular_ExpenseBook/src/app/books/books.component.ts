@@ -1,46 +1,54 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedService } from './shared/books.service'
-
 
 @Component({
   selector: 'app-books',
   templateUrl: './books.component.html'
 })
-export class BooksComponent implements OnInit {
 
-  constructor(private service:SharedService) { }
+export class BooksComponent implements OnInit 
+{
 
-  bookList: any = [];
+  constructor(private service:SharedService){}
 
+  expenseList: any = [];
   ModalTitle!: string;
-  ActivateAddEditDepComp: boolean = false;
-  dep:any;
+  ActivateAddEditComp: boolean = false;
+  expenseData:any;
   page: any;
   
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.refreshBookList();
   }
 
-  addClick(){
-    this.dep={
+  addClick()
+  {
+    this.expenseData =
+    {
       No:0,
       Project:"TestProjectName",
       Spent:"40",
       Comment:"TestComment"
     }
+    
     this.ModalTitle="Add Book";
-    this.ActivateAddEditDepComp=true;
+    this.ActivateAddEditComp=true;
   }
 
-  editClick(item: any){
-    this.dep = item;
+  editClick(item: any)
+  {
+    this.expenseData = item;
     this.ModalTitle = "Edit Book";
-    this.ActivateAddEditDepComp=true;
+    this.ActivateAddEditComp=true;
   }
 
-  deleteClick(item: any){
-    if(confirm("Are you sure?")){
-      this.service.deleteBook(item.No).subscribe(data =>{
+  deleteClick(item: any)
+  {
+    if(confirm("Are you sure?"))
+    {
+      this.service.deleteExpense(item.No).subscribe(data =>
+      {
         alert(data.toString());
         this.refreshBookList();
       })
@@ -48,14 +56,15 @@ export class BooksComponent implements OnInit {
   }
 
   closeClick(){
-    this.ActivateAddEditDepComp = false;
+    this.ActivateAddEditComp = false;
     this.refreshBookList();
   }
 
-  refreshBookList(){
-    this.service.getBooksList().subscribe(data => {
-        this.bookList = data;
+  refreshBookList()
+  {
+    this.service.getExpenseList().subscribe(data => 
+    {
+        this.expenseList = data;
     });
-    }
-
+  }
 }
