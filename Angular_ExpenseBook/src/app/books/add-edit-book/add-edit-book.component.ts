@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit  } from '@angular/core';
 import { SharedService } from '../shared/books.service';
-import { DatePipe } from '@angular/common';
-
 
 @Component({
   selector: 'app-add-edit-book',
@@ -28,37 +26,23 @@ export class AddEditBookComponent implements OnInit
   Total: Number  | any;
   Comment: string  | any;
 
-  startDate: Date| any;
-
-  constructor(private service:SharedService, private datePipe: DatePipe)
+  constructor(private service:SharedService)
   {
    this.service.getWorkerList().subscribe(data => {
     this.workerList = data;
   });
-
-  setInterval(() => {
-  this.Date = datePipe.transform(Date.now(),'yyyy/MM/dd HH:mm:ss');
-}, 1000);  
 }
 
 onChangeEmployer(event: any)
 {
-  this.EmployerId = this.workerList[event.target.value].EmployerId;
-  console.log("EmployerID " + this.EmployerId);
-
-  this.selectedEmployerGUID = this.workerList[event.target.value].EmployerId;
+  this.EmployerId = event.target.value;
+  this.selectedEmployerGUID = this.EmployerId;
 }
 
 onChangeEmployee(event: any)
 {
-  this.EmployeeId = this.employeesFiltered[event.target.value].EmployeeId;
+  this.EmployeeId = event.target.value;
   console.log("EmployeeID " + this.EmployeeId);
-}
-
-getEmployerList()
-{
-  this.employeesFiltered = this.workerList.filter((d: { EmployerRefId: string; })=>d.EmployerRefId===this.selectedEmployerGUID);
-  return this.employeesFiltered;
 }
 
 getEmployeeeList()
@@ -69,22 +53,22 @@ getEmployeeeList()
 
   ngOnInit(): void
   {
-    this.EmployeeName = 0;
-    this.EmployerName = 0;
-
-    this.startDate = new Date(); 
-
-    this.EmployerId = this.dep.EmployerId;
-    this.selectedEmployerGUID = this.EmployerId;
-
-    this.EmployeeId = this.dep.EmployeeId;
-
+    // Set Default Preview Side 
+    this.EmployeeName = this.dep.EmployeeId;
+    this.EmployerName = this.dep.EmployerId;
     this.No = this.dep.No;
     this.Project = this.dep.Project;
     this.Spent = this.dep.Spent;
     this.VAT = this.totalVAT(this.dep.Spent);
     this.Total = this.totalValue(this.dep.Spent);
     this.Comment = this.dep.Comment;
+
+    // Default Preview AllEmployees For Selected Employer 
+    this.selectedEmployerGUID = this.dep.EmployerId;
+    
+    // Set Real Default Data 
+    this.EmployerId = this.dep.EmployerId;
+    this.EmployeeId = this.dep.EmployeeId;
   }
 
   SpentValueChanged(newObj : any)

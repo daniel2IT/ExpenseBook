@@ -66,35 +66,36 @@ namespace ExpenseBook
 
         public static EntityCollection GetEntityCollection(CrmServiceClient service, string entityName)
         {
-            List<string> QueryCollumns = new List<string>();
+            List<string> queryCollumns = new List<string>();
 
-            QueryCollumns.Add("new_name");
-            QueryCollumns.Add("statuscode");
+            queryCollumns.Add("new_name");
+            queryCollumns.Add("statuscode");
 
             switch (entityName)
             {
                 case "new_expense":
-                    QueryCollumns.Add("new_no");
-                    QueryCollumns.Add("new_date");
-                    QueryCollumns.Add("new_spent");
-                    QueryCollumns.Add("new_vat");
-                    QueryCollumns.Add("new_total");
-                    QueryCollumns.Add("new_comment");
-                    QueryCollumns.Add("new_employee");
-                    QueryCollumns.Add("new_expenseid");
+                    queryCollumns.Add("new_no");
+                    queryCollumns.Add("new_date");
+                    queryCollumns.Add("new_spent");
+                    queryCollumns.Add("new_vat");
+                    queryCollumns.Add("new_total");
+                    queryCollumns.Add("new_comment");
+                    queryCollumns.Add("new_employee");
+                    queryCollumns.Add("new_expenseid");
                     break;
                 case "new_employee":
-                    QueryCollumns.Add("new_employer");
-                    QueryCollumns.Add("new_employeeid");
+                    queryCollumns.Add("new_employer");
+                    queryCollumns.Add("new_employeeid");
                     break;
                 case "new_employer":
-                    QueryCollumns.Add("new_employerid");
+                    queryCollumns.Add("new_employerid");
                     break;
             }
 
             QueryExpression query = new QueryExpression(entityName);
-            // fill query
-            query.ColumnSet.AddColumns(QueryCollumns.ToArray());
+            
+            // Fill Data To Query
+            query.ColumnSet.AddColumns(queryCollumns.ToArray());
 
             query.Criteria.AddCondition("new_name", ConditionOperator.NotNull);
 
@@ -110,88 +111,6 @@ namespace ExpenseBook
             }
 
             return service.RetrieveMultiple(query);
-        }
-
-    
-
-            public static EntityCollection Query(CrmServiceClient service, string entityCollection, string exception, string valueForUpdate)
-            {
-           
-                List<string> QueryCollumns = new List<string>();
-                QueryCollumns.Add("new_name");
-                QueryCollumns.Add("statuscode");
-                if (entityCollection.Equals("new_expense"))
-                {
-                    QueryCollumns.Add("new_no");
-                    QueryCollumns.Add("new_date");
-                    QueryCollumns.Add("new_spent");
-                    QueryCollumns.Add("new_vat");
-                    QueryCollumns.Add("new_total");
-                    QueryCollumns.Add("new_comment");
-                    QueryCollumns.Add("new_employee");
-                    // Using For Put Method
-                    if (exception.Equals("new_expenseid"))
-                    {
-                        QueryCollumns.Add("new_expenseid");
-                    }
-                }
-                if (entityCollection.Equals("new_employee"))
-                {
-                    QueryCollumns.Add("new_employer");
-                    if (!exception.Equals(""))
-                    {
-                        QueryCollumns.Add("new_employeeid");
-                    }
-                }
-                if (entityCollection.Equals("new_employer"))
-                {
-                    QueryCollumns.Add("new_employerid");
-                }
-
-                QueryExpression query = new QueryExpression(entityCollection);
-                query.ColumnSet.AddColumns(QueryCollumns.ToArray());
-
-                // Using For Post/Put Methods -> Conditions
-                if (!exception.Equals("") && !exception.Equals("new_expenseid") &&
-                    !exception.Equals("new_employeeid") && !exception.Equals("new_employerid")) 
-                {
-                    query.Criteria.AddCondition("new_name", ConditionOperator.Equal, exception);
-                }
-                else if(exception.Equals("new_employeeid") && valueForUpdate != "")
-                {
-                    query.Criteria.AddCondition("new_name", ConditionOperator.Equal, valueForUpdate);
-                }
-                else if (exception.Equals("new_employerid") && valueForUpdate != "")
-                {
-                    query.Criteria.AddCondition("new_name", ConditionOperator.Equal, valueForUpdate);
-                }
-                else if (!exception.Equals("new_expenseid") && valueForUpdate == "")
-                {
-                    query.Criteria.AddCondition("new_name", ConditionOperator.NotNull);
-                }
-
-                query.Criteria.AddCondition("statuscode", ConditionOperator.Equal, (1));
-
-                if (entityCollection.Equals("new_expense"))
-                {
-                    if (exception.Equals("new_expenseid")) // Put Method
-                    {
-                        query.Criteria.AddCondition("new_no", ConditionOperator.Equal, valueForUpdate);
-                    }
-                    else
-                    {
-                        query.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
-                        query.Criteria.AddCondition("new_date", ConditionOperator.NotNull);
-                        query.Criteria.AddCondition("new_spent", ConditionOperator.NotNull);
-                        query.Criteria.AddCondition("new_vat", ConditionOperator.NotNull);
-                        query.Criteria.AddCondition("new_total", ConditionOperator.NotNull);
-                        query.Criteria.AddCondition("new_comment", ConditionOperator.NotNull);
-
-                        query.Criteria.AddCondition("new_employee", ConditionOperator.NotNull);
-                    }
-                }
-
-                return service.RetrieveMultiple(query);
         }
     }
 }

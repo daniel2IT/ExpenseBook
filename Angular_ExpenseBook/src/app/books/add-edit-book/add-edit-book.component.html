@@ -4,18 +4,16 @@
         <br>
         <select class="form-control" (change)="onChangeEmployer($event)" [(ngModel)]="EmployerName" >
             <ng-container *ngFor="let employerItem of workerList; let i = index">
-                <option *ngIf="employerItem.EmployerId!=='00000000-0000-0000-0000-000000000000'" [value]="i">
+                <option *ngIf="employerItem.EmployerId!=='00000000-0000-0000-0000-000000000000'" [value]="employerItem.EmployerId"> <!--i-->
                     <b>{{employerItem.EmployerName}}</b> 
                 </option>
             </ng-container>
         </select>
-        <br>
-        <br>
         <b>EmployeeName</b>
         <br>
         <select class="form-control"  [(ngModel)]="EmployeeName" (change)="onChangeEmployee($event)">
             <ng-container *ngFor="let employeeItem of getEmployeeeList(); let i = index">
-                <option *ngIf="employeeItem.EmployeeId!=='00000000-0000-0000-0000-000000000000'" [value]="i">
+                <option *ngIf="employeeItem.EmployeeId!=='00000000-0000-0000-0000-000000000000'" [value]="employeeItem.EmployeeId">
                     {{employeeItem.EmployeeName}}
                 </option>
             </ng-container>
@@ -25,15 +23,14 @@
         <input type="text" class="form-control" [(ngModel)]="Project"
         placeholder="Enter Expense Name">
         <b>Date</b>
-        <input type="text" class="form-control" [(ngModel)]="Date"
-        placeholder="Enter Date" [readonly]="true" >
-
-        <input
-        placeholder="Datepicker"
-        class="form-control"
-        #dp="bsDatepicker"
-        bsDatepicker>
-        
+        <div class="row">
+            <div class="col-xs-12 col-12 col-md-4 form-group">
+              <input type="text" [(ngModel)]="Date"
+                     placeholder="Datepicker"
+                     class="form-control"
+                     bsDatepicker>
+            </div>
+        </div>
         <b>Spent</b>
         <input type="text" class="form-control" [(ngModel)]="Spent" 
         placeholder="Enter Spent Value" (ngModelChange)="SpentValueChanged($event)">

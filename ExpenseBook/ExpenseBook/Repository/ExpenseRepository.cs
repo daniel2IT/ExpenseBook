@@ -16,7 +16,7 @@ namespace ExpenseBook.Repository
 
             expenseEntity["new_no"] = Convert.ToString(HelperClass.GetMaxNo(service) + 1);
             expenseEntity["new_name"] = postExpense.Project;
-            expenseEntity["new_date"] = postExpense.Date;
+            expenseEntity["new_date"] = Convert.ToDateTime(postExpense.Date);
             expenseEntity["new_spent"] = new Money((decimal)postExpense.Spent);
             expenseEntity["new_vat"] = new Money((decimal)postExpense.VAT);
             expenseEntity["new_total"] = new Money((decimal)postExpense.Total);
@@ -61,8 +61,6 @@ namespace ExpenseBook.Repository
                 employeeModel.EmployerRefId = employeeCollection.Entities.FirstOrDefault(entity => entity.Id == employeeModel.EmployeeId).GetAttributeValue<EntityReference>("new_employer").Id;
                 workerList.Add(employeeModel);
             }
-
-
             return workerList;
         }
 
@@ -103,7 +101,7 @@ namespace ExpenseBook.Repository
 
             Entity expenseEntity = new Entity("new_expense", expenceId);
             expenseEntity["new_name"] = putExpense.Project;
-            expenseEntity["new_date"] = putExpense.Date;
+            expenseEntity["new_date"] = Convert.ToDateTime(putExpense.Date);
             expenseEntity["new_spent"] = new Money((decimal)putExpense.Spent);
             expenseEntity["new_vat"] = new Money((decimal)putExpense.VAT);
             expenseEntity["new_total"] = new Money((decimal)putExpense.Total);

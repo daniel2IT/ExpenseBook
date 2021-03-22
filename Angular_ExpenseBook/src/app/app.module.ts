@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import {BsDatepickerModule } from 'ngx-bootstrap/datepicker'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {BsDatepickerModule } from 'ngx-bootstrap/datepicker'
     FormsModule, 
     NgxPaginationModule,
     MatDatepickerModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    BrowserAnimationsModule
   ],
   declarations: [
     EventsAppComponent,
