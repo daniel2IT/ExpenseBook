@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { BooksComponent } from './books/books.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AddEditBookComponent } from './books/add-edit-book/add-edit-book.component';
+import { AddEditBookComponent } from './books/add-edit-book/add-edit-expense.component';
 import { EventsAppComponent } from './events-app.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';

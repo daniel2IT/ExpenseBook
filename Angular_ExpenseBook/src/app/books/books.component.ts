@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from './shared/books.service'
+import { SharedService } from './shared/expense.service'
 
 @Component({
   selector: 'app-books',
