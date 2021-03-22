@@ -40,6 +40,8 @@ export class AddEditExpenseComponent implements OnInit
 
   onChangeEmployee(event: any)
   {
+    
+
     this.EmployeeId = event.target.value;
     console.log("EmployeeID " + this.EmployeeId);
   }
