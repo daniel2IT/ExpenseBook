@@ -9,6 +9,7 @@ namespace ExpenseBook
         {
             // Configure NijectResolver
              config.DependencyResolver = new NinjectResolver();
+
             // Web API configuration and services
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
 

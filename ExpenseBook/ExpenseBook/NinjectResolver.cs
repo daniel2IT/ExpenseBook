@@ -11,9 +11,7 @@ namespace ExpenseBook
     {
         private IKernel kernel;
 
-        public NinjectResolver() : this(new StandardKernel())
-        {
-        }
+        public NinjectResolver() : this(new StandardKernel()){}
 
         public NinjectResolver(IKernel ninjectKernel, bool scope = false)
         {

@@ -57,11 +57,11 @@ namespace ExpenseBook
 
         public static EntityCollection GetNoCollection(CrmServiceClient service)
         {
-            QueryExpression queryEmployer = new QueryExpression("new_expense");
-            queryEmployer.ColumnSet.AddColumns("new_no");
-            queryEmployer.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
+            QueryExpression queryNo = new QueryExpression("new_expense");
+            queryNo.ColumnSet.AddColumns("new_no");
+            queryNo.Criteria.AddCondition("new_no", ConditionOperator.NotNull);
 
-            return service.RetrieveMultiple(queryEmployer);
+            return service.RetrieveMultiple(queryNo);
         }
 
         public static EntityCollection GetEntityCollection(CrmServiceClient service, string entityName)
