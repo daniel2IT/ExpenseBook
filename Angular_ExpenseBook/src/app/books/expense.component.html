@@ -3,7 +3,7 @@
 data-toggle="modal" data-target="#exampleModal"
 (click)="addClick()"
 data-backdrop="static" data-keyboard="false"> <!--User can't close window outside it-->
-    Add new Book
+    Add new Expense
   </button>
   
   <!-- Modal -->
@@ -20,9 +20,9 @@ data-backdrop="static" data-keyboard="false"> <!--User can't close window outsid
           </button>
         </div>
         <div class="modal-body">
-            <app-add-edit-book [expense]=expenseData
+            <app-add-edit-expense [expense]=expenseData
               *ngIf="ActivateAddEditComp">
-            </app-add-edit-book>
+            </app-add-edit-expense>
         </div>
       </div>
     </div>

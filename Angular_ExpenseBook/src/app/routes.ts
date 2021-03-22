@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router'
-import { BooksComponent } from './books/books.component';
+import { ExpenseComponent } from './books/expense.component';
 
 export const appRoutes: Routes = [
-    { path: 'expense', component: BooksComponent},
+    { path: 'expense', component: ExpenseComponent},
     { path: '', redirectTo: '/expense', pathMatch:'full'}
 ]

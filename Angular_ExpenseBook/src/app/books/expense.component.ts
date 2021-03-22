@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from './shared/expense.service'
 
 @Component({
-  selector: 'app-books',
-  templateUrl: './books.component.html'
+  selector: 'app-expense',
+  templateUrl: './expense.component.html'
 })
 
-export class BooksComponent implements OnInit 
+export class ExpenseComponent implements OnInit 
 {
 
   constructor(private service:SharedService){}
@@ -19,7 +19,7 @@ export class BooksComponent implements OnInit
   
   ngOnInit(): void
   {
-    this.refreshBookList();
+    this.refreshExpenseList();
   }
 
   addClick()
@@ -32,14 +32,14 @@ export class BooksComponent implements OnInit
       Comment:"TestComment"
     }
     
-    this.ModalTitle="Add Book";
+    this.ModalTitle="Add Expense";
     this.ActivateAddEditComp=true;
   }
 
   editClick(item: any)
   {
     this.expenseData = item;
-    this.ModalTitle = "Edit Book";
+    this.ModalTitle = "Edit Expense";
     this.ActivateAddEditComp=true;
   }
 
@@ -50,17 +50,18 @@ export class BooksComponent implements OnInit
       this.service.deleteExpense(item.No).subscribe(data =>
       {
         alert(data.toString());
-        this.refreshBookList();
+        this.refreshExpenseList();
       })
     }
   }
 
-  closeClick(){
+  closeClick()
+  {
     this.ActivateAddEditComp = false;
-    this.refreshBookList();
+    this.refreshExpenseList();
   }
 
-  refreshBookList()
+  refreshExpenseList()
   {
     this.service.getExpenseList().subscribe(data => 
     {

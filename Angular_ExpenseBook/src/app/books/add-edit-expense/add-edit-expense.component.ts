@@ -2,11 +2,11 @@ import { Component, Input, OnInit  } from '@angular/core';
 import { SharedService } from '../shared/expense.service';
 
 @Component({
-  selector: 'app-add-edit-book',
+  selector: 'app-add-edit-expense',
   templateUrl: './add-edit-expense.component.html'
 })
 
-export class AddEditBookComponent implements OnInit
+export class AddEditExpenseComponent implements OnInit
 {
   workerList: any = [];
   employeesFiltered: any = [];
