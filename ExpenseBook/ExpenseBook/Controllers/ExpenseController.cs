@@ -50,7 +50,7 @@ namespace ExpenseBook.Controllers
 
                     // Get Employee set -> (for reference)
                     EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
-
+  
                     // Create Expense
                     service.Create(_repository.CreateExpense(postExpense, employeeCollection, service));
 
@@ -75,8 +75,7 @@ namespace ExpenseBook.Controllers
 
                     // Get Collection Data
                     EntityCollection expenseCollection = HelperClass.GetEntityCollection(service, "new_expense");
-                    EntityCollection employeeCollection = HelperClass.GetEntityCollection(service, "new_employee");
-                    EntityCollection employerCollection = HelperClass.GetEntityCollection(service, "new_employer");
+                
 
                     // Update
                     ExecuteMultipleResponse executeMultipleResponses = (ExecuteMultipleResponse)service.Execute(_repository.UpdateExpense(executeMultiple, expenseCollection, putExpense));

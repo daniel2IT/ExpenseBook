@@ -12,8 +12,8 @@
         <b>EmployeeName</b>
         <br>
         <select class="form-control"  [(ngModel)]="EmployeeName" (input)="onChangeEmployee($event)">
-            <ng-container *ngFor="let employeeItem of getEmployeeeList(); let i = index">
                 <option value="undefined"></option>
+                <ng-container *ngFor="let employeeItem of getEmployeeeList(); let i = index">
                 <option *ngIf="employeeItem.EmployeeId!=='00000000-0000-0000-0000-000000000000'" [value]="employeeItem.EmployeeId">
                     {{employeeItem.EmployeeName}}
                 </option>

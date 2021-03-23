@@ -95,7 +95,7 @@ namespace ExpenseBook.Repository
 
         public ExecuteMultipleRequest UpdateExpense(ExecuteMultipleRequest executeMultiple ,EntityCollection expenseCollection, Expense putExpense)
         {
-            Guid expenceId = expenseCollection.Entities.FirstOrDefault(expenseNo => expenseNo.GetAttributeValue<string>("new_no").Contains(Convert.ToString(putExpense.No))).Id;
+            Guid expenceId = expenseCollection.Entities.FirstOrDefault(expenseNo => expenseNo.GetAttributeValue<string>("new_no").Equals(Convert.ToString(putExpense.No))).Id;
 
             Entity expense = new Entity("new_expense", expenceId);
             expense["new_name"] = putExpense.Project;
